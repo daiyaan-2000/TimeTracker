@@ -29,12 +29,18 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
             TimerCard(
-              leading: Icon(Icons.computer),
+              icon: Icon(Icons.computer, color: Colors.white),
+              title: 'Flutterrrrr Project',
+            ),
+            TimerCard(
+              icon: Icon(Icons.computer, color: Colors.white),
               title: 'Dart Language Trainingg',
             ),
-            TimerCard(leading: Icon(Icons.computer), title: 'Footy Practice'),
+            TimerCard(
+              icon: Icon(Icons.computer, color: Colors.white),
+              title: 'Footy Practice',
+            ),
           ],
         ),
       ),
@@ -99,9 +105,9 @@ class HomePage extends StatelessWidget {
 }
 
 class TimerCard extends StatelessWidget {
-  const TimerCard({super.key, required this.leading, required this.title});
+  const TimerCard({super.key, required this.icon, required this.title});
 
-  final Icon leading;
+  final Icon icon;
   final String title;
 
   @override
@@ -135,7 +141,7 @@ class TimerCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: Color.fromARGB(255, 27, 87, 110),
                 radius: 25,
-                child: Icon(Icons.computer, color: Colors.white),
+                child: icon,
               ),
 
               Column(
@@ -143,7 +149,7 @@ class TimerCard extends StatelessWidget {
                 spacing: 8,
                 children: [
                   Text(
-                    'Flutter UI Design',
+                    title,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
 
