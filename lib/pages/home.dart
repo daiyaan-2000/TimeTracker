@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
             TimerCard(
               leading: Icon(Icons.computer),
-              title: 'Dart Language Training',
+              title: 'Dart Language Trainingg',
             ),
             TimerCard(leading: Icon(Icons.computer), title: 'Footy Practice'),
           ],
