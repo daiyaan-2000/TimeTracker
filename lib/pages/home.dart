@@ -131,7 +131,7 @@ class TimerCard extends StatelessWidget {
       ),
       child: Row(
         //2
-        spacing: 16,
+        //spacing: 16,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -165,9 +165,9 @@ class TimerCard extends StatelessWidget {
                       Row(
                         //5
                         children: [
-                          LabelWidget(label: 'Work'),
+                          TaskContainers(label: 'Work'),
                           SizedBox(width: 5),
-                          LabelWidget(label: 'Flutter Project'),
+                          TaskContainers(label: 'Flutter Project'),
                         ],
                       ),
                     ],
@@ -194,8 +194,8 @@ class TimerCard extends StatelessWidget {
   }
 }
 
-class LabelWidget extends StatelessWidget {
-  const LabelWidget({super.key, required this.label});
+class TaskContainers extends StatelessWidget {
+  const TaskContainers({super.key, required this.label});
 
   final String label;
 
