@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
-              title: 'Dart Language Trainingg',
+              title: 'Dart Language Trainingg Trainingg Trainingg',
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
@@ -113,8 +113,8 @@ class TimerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //1
       margin: EdgeInsets.only(bottom: 16),
-      height: 150,
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -130,48 +130,63 @@ class TimerCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        //2
         spacing: 16,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            spacing: 16,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 27, 87, 110),
-                radius: 25,
-                child: icon,
-              ),
+          Expanded(
+            flex: 4,
+            child: Row(
+              //3
+              spacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 27, 87, 110),
+                  radius: 25,
+                  child: icon,
+                ),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
-
-                  Row(
+                Expanded(
+                  child: Column(
+                    //4
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 8,
                     children: [
-                      LabelWidget(label: 'Work'),
-                      SizedBox(width: 5),
-                      LabelWidget(label: 'Flutter Project'),
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+
+                      Row(
+                        //5
+                        children: [
+                          LabelWidget(label: 'Work'),
+                          SizedBox(width: 5),
+                          LabelWidget(label: 'Flutter Project'),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('00:00:00'),
-              Icon(Icons.play_arrow_rounded, size: 30),
-            ],
+          Flexible(
+            child: Column(
+              //6
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('00:00:00'),
+                Icon(Icons.play_arrow_rounded, size: 30),
+              ],
+            ),
           ),
         ],
       ),
