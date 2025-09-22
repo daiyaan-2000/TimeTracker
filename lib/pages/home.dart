@@ -11,59 +11,32 @@ class HomePage extends StatelessWidget {
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
-        child: (Column(
+        padding: EdgeInsets.all(16),
+        child: Column(
           children: [
-            //-------------------------------------------------------------------------------------
-
-            //First Text Row
-            Container(
-              margin: EdgeInsets.only(
-                top: 70,
-                left: 120,
-                right: 120,
-                bottom: 5,
-              ),
-              height: 25,
-              width: double.infinity,
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Today',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'See All',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Today',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'See All',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
+            const SizedBox(height: 8),
 
-            //-------------------------------------------------------------------------------------
-
-            //FIRST CONTAINER
-            TimeWidget(), // First child ends
-            //-------------------------------------------------------------------------------------
-
-            //SECOND CONTAINER
-            TimeWidget(),
-
-            //-------------------------------------------------------------------------------------
-
-            //THIRD CHILD
-            TimeWidget(),
-
-            //--------------------------------------------------------------------------------------
-            //FOURTH CHILD
-            TimeWidget(),
-
-            //--------------------------------------------------------------------------------------
-            //FIFTH CHILD
-            TimeWidget(),
+            TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
+            TimerCard(
+              leading: Icon(Icons.computer),
+              title: 'Dart Language Trainingg',
+            ),
+            TimerCard(leading: Icon(Icons.computer), title: 'Footy Practice'),
           ],
-        )),
+        ),
       ),
     );
   }
@@ -125,8 +98,11 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class TimeWidget extends StatelessWidget {
-  const TimeWidget({super.key});
+class TimerCard extends StatelessWidget {
+  const TimerCard({super.key, required this.leading, required this.title});
+
+  final Icon leading;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -148,109 +124,72 @@ class TimeWidget extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 16,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
+          Row(
+            spacing: 16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              CircleAvatar(
+                backgroundColor: Color.fromARGB(255, 27, 87, 110),
+                radius: 25,
+                child: Icon(Icons.computer, color: Colors.white),
+              ),
+
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 27, 87, 110),
-                    radius: 25,
-                    child: Icon(Icons.computer, color: Colors.white),
-                  ),
-                  SizedBox(width: 20),
                   Text(
                     'Flutter UI Design',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
+
+                  Row(
+                    children: [
+                      LabelWidget(label: 'Work'),
+                      SizedBox(width: 5),
+                      LabelWidget(label: 'Flutter Project'),
+                    ],
+                  ),
                 ],
-              ),
-              Padding(
-                padding: EdgeInsetsGeometry.only(
-                  left: 60,
-                  right: 20,
-                  bottom: 10,
-                  top: 1,
-                ),
-                child: Row(
-                  children: [
-                    //SizedBox(width: 100),
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 95, 159, 184),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: EdgeInsets.only(
-                        top: 5,
-                        bottom: 5,
-                        left: 10,
-                        right: 10,
-                      ),
-                      child: (Text(
-                        'Work',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 38, 88, 108),
-                        ),
-                      )),
-
-                      //width: 70,
-                    ),
-                    SizedBox(width: 5),
-
-                    Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                        bottom: 5,
-                        left: 10,
-                        right: 10,
-                      ),
-                      //width: 70,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 95, 159, 184),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: (Text(
-                        'Flutter Project',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 38, 88, 108),
-                        ),
-                      )),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
 
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Time: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                    TextSpan(text: '00:00:00', style: TextStyle(fontSize: 17)),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              Icon(Icons.play_arrow_rounded, size: 50),
+              Text('00:00:00'),
+              Icon(Icons.play_arrow_rounded, size: 30),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class LabelWidget extends StatelessWidget {
+  const LabelWidget({super.key, required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 95, 159, 184),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(color: Color.fromARGB(255, 38, 88, 108)),
       ),
     );
   }
