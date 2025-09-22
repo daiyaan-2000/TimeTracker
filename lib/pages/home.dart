@@ -32,10 +32,17 @@ class HomePage extends StatelessWidget {
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
               title: 'Flutter Project',
+              details: ['Work', 'UI Design'],
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
-              title: 'Dart Language Trainingg Trainingg Trainingg',
+              title: 'Dart Language Training',
+              details: [
+                'Loops',
+                'Conditionals',
+                'Widgets',
+                'Asynchronous programming',
+              ],
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
@@ -105,10 +112,16 @@ class HomePage extends StatelessWidget {
 }
 
 class TimerCard extends StatelessWidget {
-  const TimerCard({super.key, required this.icon, required this.title});
+  const TimerCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.details = const [],
+  });
 
   final Icon icon;
   final String title;
+  final List<String> details;
 
   @override
   Widget build(BuildContext context) {
@@ -162,12 +175,11 @@ class TimerCard extends StatelessWidget {
                         ),
                       ),
 
-                      Row(
-                        //5
+                      Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
                         children: [
-                          TaskContainers(label: 'Work'),
-                          SizedBox(width: 5),
-                          TaskContainers(label: 'Flutter Project'),
+                          for (var i in details) TaskContainers(label: i),
                         ],
                       ),
                     ],
@@ -202,7 +214,7 @@ class TaskContainers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
+      //alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 95, 159, 184),
