@@ -7,19 +7,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.track_changes),
-            label: 'My Productivity',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add New'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2),
-            label: 'My Profile',
-          ),
-        ],
-      ),
+      bottomNavigationBar: BottomNav(),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
@@ -119,6 +107,27 @@ class HomePage extends StatelessWidget {
           wordSpacing: 8,
         ),
       ),
+    );
+  }
+}
+
+class BottomNav extends StatelessWidget {
+  const BottomNav({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.track_changes),
+          label: 'My Productivity',
+        ),
+        BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add New'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_2),
+          label: 'My Profile',
+        ),
+      ],
     );
   }
 }
