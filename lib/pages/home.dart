@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
 
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
-              title: 'Flutterrrrr Project',
+              title: 'Flutter Project',
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
