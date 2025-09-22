@@ -7,7 +7,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: bottomBar(context),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.track_changes),
+            label: 'My Productivity',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add New'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_2),
+            label: 'My Profile',
+          ),
+        ],
+      ),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
