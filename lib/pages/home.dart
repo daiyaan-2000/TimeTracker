@@ -28,9 +28,13 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+
             TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
-            TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
-            TimerCard(leading: Icon(Icons.computer), title: 'Flutter Project'),
+            TimerCard(
+              leading: Icon(Icons.computer),
+              title: 'Dart Language Training',
+            ),
+            TimerCard(leading: Icon(Icons.computer), title: 'Footy Practice'),
           ],
         ),
       ),
