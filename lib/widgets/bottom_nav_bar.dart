@@ -17,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     SizedBox(),
     ProfilePage(),
   ];
-
+  //commenting
   int selectedIndex = 0;
 
   @override
