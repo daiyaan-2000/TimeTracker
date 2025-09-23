@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/productivity.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
+import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,7 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNav(),
+      //bottomNavigationBar: BottomNavBar(),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
@@ -78,66 +79,6 @@ class HomePage extends StatelessWidget {
           wordSpacing: 8,
         ),
       ),
-    );
-  }
-}
-
-class BottomNav extends StatefulWidget {
-  const BottomNav({super.key});
-
-  @override
-  State<BottomNav> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<BottomNav> {
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.shifting,
-
-      currentIndex: selectedIndex,
-
-      onTap: (index) {
-        setState(() {
-          selectedIndex = index;
-        });
-
-        if (index == 1) {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => ProductivityPage()));
-        } else if (index == 0) {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => HomePage()));
-        }
-        ;
-      },
-
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-          backgroundColor: Color.fromARGB(255, 27, 87, 110),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.track_changes),
-          label: 'Productivity',
-          backgroundColor: Color.fromARGB(255, 95, 159, 184),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'Add New',
-          backgroundColor: Color.fromARGB(255, 27, 87, 110),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_2),
-          label: 'Profile',
-          backgroundColor: Color.fromARGB(255, 95, 159, 184),
-        ),
-      ],
     );
   }
 }

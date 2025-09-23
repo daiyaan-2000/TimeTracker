@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/home.dart';
+import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class OpeningPage extends StatelessWidget {
   const OpeningPage({super.key});
@@ -13,11 +14,11 @@ class OpeningPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 300,
-              width: 300,
+              height: 200,
+              width: 400,
               //color: Colors.white,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(100),
                 border: BoxBorder.all(color: Colors.black, width: 5),
                 boxShadow: [
                   BoxShadow(
@@ -28,7 +29,7 @@ class OpeningPage extends StatelessWidget {
                   ),
                 ],
 
-                color: Colors.white,
+                color: Color.fromARGB(255, 226, 246, 253),
               ),
               child: Center(
                 child: Text(
@@ -44,7 +45,7 @@ class OpeningPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(
                   context,
-                ).push(MaterialPageRoute(builder: (_) => HomePage()));
+                ).push(MaterialPageRoute(builder: (_) => BottomNavBar()));
               },
               child: Container(
                 padding: EdgeInsets.all(20),
