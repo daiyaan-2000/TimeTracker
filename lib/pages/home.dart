@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/productivity.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
+import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,13 +10,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //bottomNavigationBar: BottomNavBar(),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
+            CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
+            SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,11 +36,13 @@ class HomePage extends StatelessWidget {
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
               title: 'Flutter Project',
+              timer: '08:45:15',
               details: ['Work', 'UI Design'],
             ),
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
               title: 'Dart Language Training',
+              timer: '00:00:00',
               details: [
                 'Loops',
                 'Conditionals',
@@ -49,6 +53,7 @@ class HomePage extends StatelessWidget {
             TimerCard(
               icon: Icon(Icons.computer, color: Colors.white),
               title: 'Footy Practice',
+              timer: '00:00:00',
             ),
           ],
         ),
@@ -83,27 +88,20 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class TimerCard extends StatelessWidget {
-  const TimerCard({
-    super.key,
-    required this.icon,
-    required this.title,
-    this.details = const [],
-  });
+class CurrentTimer extends StatelessWidget {
+  const CurrentTimer({super.key, required this.timer, required this.title});
 
-  final Icon icon;
+  final String timer;
   final String title;
-  final List<String> details;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      //1
       margin: EdgeInsets.only(bottom: 16),
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: Color.fromARGB(255, 231, 246, 251),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -114,65 +112,132 @@ class TimerCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        //2
-        //spacing: 16,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 4,
-            child: Row(
-              //3
-              spacing: 16,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 27, 87, 110),
-                  radius: 25,
-                  child: icon,
-                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                timer,
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              Icon(Icons.arrow_forward_ios, size: 25),
+            ],
+          ),
+          Text(title, style: TextStyle(fontSize: 20)),
+        ],
+      ),
+    );
+  }
+}
 
-                Expanded(
-                  child: Column(
-                    //4
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 8,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
-                        ),
-                      ),
+class TimerCard extends StatelessWidget {
+  const TimerCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.timer,
+    this.details = const [],
+  });
 
-                      Wrap(
-                        spacing: 4,
-                        runSpacing: 4,
+  final Icon icon;
+  final String title;
+  final String timer;
+  final List<String> details;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => TimerDetailPage(title: title, timer: timer),
+            ),
+          );
+        },
+
+        child: Container(
+          //1
+          margin: EdgeInsets.only(bottom: 16),
+          width: double.infinity,
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            //2
+            //spacing: 16,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 4,
+                child: Row(
+                  //3
+                  spacing: 16,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Color.fromARGB(255, 27, 87, 110),
+                      radius: 25,
+                      child: icon,
+                    ),
+
+                    Expanded(
+                      child: Column(
+                        //4
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 8,
                         children: [
-                          for (var i in details) TaskContainers(label: i),
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
+                          ),
+
+                          Wrap(
+                            spacing: 4,
+                            runSpacing: 4,
+                            children: [
+                              for (var i in details) TaskContainers(label: i),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
-          Flexible(
-            child: Column(
-              //6
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('00:00:00'),
-                Icon(Icons.play_arrow_rounded, size: 30),
-              ],
-            ),
+              Flexible(
+                child: Column(
+                  //6
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(timer),
+                    Icon(Icons.play_arrow_rounded, size: 30),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
