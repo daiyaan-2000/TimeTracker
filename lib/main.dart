@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/home.dart';
+import 'package:time_tracker/widgets/bottom_nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 57, 134, 207),
+        ),
       ),
-      home: HomePage(),
+      home: BottomNavBar(),
     );
   }
 }

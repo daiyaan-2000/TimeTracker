@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker/pages/productivity.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,7 +8,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNav(),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
@@ -54,36 +54,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  //------------------------------------------------------------------
-
-  BottomAppBar bottomBar(BuildContext context) {
-    return BottomAppBar(
-      color: Color.fromARGB(255, 255, 255, 255),
-      height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (_) => stopwatchPage()));
-            },
-
-            //padding: EdgeInsets.all(2),
-            child: CircleAvatar(
-              radius: 70,
-              backgroundColor: Color.fromARGB(255, 27, 87, 110),
-              child: Icon(Icons.add, size: 40, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  //-----------------------------------------------------------------------------------------
-
   AppBar appBar() {
     return AppBar(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -107,27 +77,6 @@ class HomePage extends StatelessWidget {
           wordSpacing: 8,
         ),
       ),
-    );
-  }
-}
-
-class BottomNav extends StatelessWidget {
-  const BottomNav({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.track_changes),
-          label: 'My Productivity',
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add New'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_2),
-          label: 'My Profile',
-        ),
-      ],
     );
   }
 }
