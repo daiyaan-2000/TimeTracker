@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/productivity.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
+import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,6 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //bottomNavigationBar: BottomNavBar(),
       appBar: appBar(),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(

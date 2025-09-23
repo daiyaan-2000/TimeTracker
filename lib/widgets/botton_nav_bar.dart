@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/home.dart';
+import 'package:time_tracker/pages/opening.dart';
 import 'package:time_tracker/pages/productivity.dart';
 import 'package:time_tracker/pages/profile.dart';
 
@@ -7,18 +8,18 @@ class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  State<BottomNavBar> createState() => BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class BottomNavBarState extends State<BottomNavBar> {
+  int selectedIndex = 0;
+
   final List<Widget> tabs = [
     HomePage(),
     ProductivityPage(),
-    SizedBox(),
+    OpeningPage(),
     ProfilePage(),
   ];
-
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
