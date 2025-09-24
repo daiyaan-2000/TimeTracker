@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/home.dart';
-import 'package:time_tracker/pages/opening.dart';
-import 'package:time_tracker/pages/productivity.dart';
+import 'package:time_tracker/pages/dashboard_page.dart';
+import 'package:time_tracker/pages/opening_page.dart';
+import 'package:time_tracker/pages/report_page.dart';
 import 'package:time_tracker/pages/profile.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -15,7 +15,7 @@ class BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
 
   final List<Widget> tabs = [
-    HomePage(),
+    DashboardPage(),
     ProductivityPage(),
     OpeningPage(),
     ProfilePage(),

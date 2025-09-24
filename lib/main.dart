@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/home.dart';
-import 'package:time_tracker/pages/opening.dart';
+import 'package:time_tracker/pages/dashboard_page.dart';
+import 'package:time_tracker/pages/opening_page.dart';
 
 void main() {
   runApp(const MyApp());

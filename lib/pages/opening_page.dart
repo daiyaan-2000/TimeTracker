@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/home.dart';
+import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class OpeningPage extends StatelessWidget {

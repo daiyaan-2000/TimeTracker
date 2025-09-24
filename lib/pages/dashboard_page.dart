@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/productivity.dart';
+import 'package:time_tracker/pages/report_page.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {

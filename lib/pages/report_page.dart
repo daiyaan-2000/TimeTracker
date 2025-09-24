@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/home.dart';
+import 'package:time_tracker/pages/dashboard_page.dart';
 
 class ProductivityPage extends StatelessWidget {
   const ProductivityPage({super.key});
