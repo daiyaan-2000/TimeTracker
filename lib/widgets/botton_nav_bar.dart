@@ -16,7 +16,7 @@ class BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> tabs = [
     DashboardPage(),
-    ProductivityPage(),
+    ReportPage(),
     OpeningPage(),
     ProfilePage(),
   ];
