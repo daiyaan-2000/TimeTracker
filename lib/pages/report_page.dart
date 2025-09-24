@@ -52,8 +52,7 @@ class ReportPage extends StatelessWidget {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          // 3. Ensure child count matches the TabBar length.
-                          Text('This is the Hello tab'),
+                          Text('This is the dayy tab'),
                           Text('This is the week tab'),
                         ],
                       ),
