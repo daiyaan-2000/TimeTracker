@@ -53,7 +53,7 @@ class TimerDetailPage extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Play',
+                      'Resume',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,

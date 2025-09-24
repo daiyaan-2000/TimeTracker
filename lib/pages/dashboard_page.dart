@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker/pages/add_new_page.dart';
 import 'package:time_tracker/pages/report_page.dart';
 import 'package:time_tracker/pages/stopwatch.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
+import 'package:time_tracker/widgets/app_bar.dart';
 import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -10,7 +12,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: myappBar('TIME TRACKER APP'),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -40,7 +42,7 @@ class DashboardPage extends StatelessWidget {
               details: ['Work', 'UI Design'],
             ),
             TimerCard(
-              icon: Icon(Icons.computer, color: Colors.white),
+              icon: Icon(Icons.language, color: Colors.white),
               title: 'Dart Language Training',
               timer: '00:00:00',
               details: [
@@ -51,37 +53,11 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             TimerCard(
-              icon: Icon(Icons.computer, color: Colors.white),
+              icon: Icon(Icons.sports_soccer, color: Colors.white),
               title: 'Footy Practice',
               timer: '00:00:00',
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      centerTitle: true,
-      elevation: 0,
-      leading: Icon(Icons.home),
-      actions: [
-        Icon(Icons.notification_add),
-        SizedBox(width: 20),
-        Icon(Icons.person),
-        SizedBox(width: 20),
-        Icon(Icons.settings),
-        SizedBox(width: 20),
-      ],
-      title: Text(
-        'TIME TRACKER APP',
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.2,
-          wordSpacing: 8,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/dashboard_page.dart';
+import 'package:time_tracker/widgets/app_bar.dart';
 
 class ReportPage extends StatelessWidget {
   const ReportPage({super.key});
@@ -7,7 +8,7 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: myappBar('Productivity Report'),
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -67,32 +68,6 @@ class ReportPage extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      centerTitle: true,
-      elevation: 0,
-      leading: Icon(Icons.home),
-      actions: [
-        Icon(Icons.notification_add),
-        SizedBox(width: 20),
-        Icon(Icons.person),
-        SizedBox(width: 20),
-        Icon(Icons.settings),
-        SizedBox(width: 20),
-      ],
-      title: Text(
-        'Productivity Report',
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.2,
-          wordSpacing: 8,
         ),
       ),
     );

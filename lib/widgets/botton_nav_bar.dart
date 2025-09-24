@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker/pages/add_new_page.dart';
 import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/opening_page.dart';
 import 'package:time_tracker/pages/report_page.dart';
@@ -17,7 +18,7 @@ class BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> tabs = [
     DashboardPage(),
     ReportPage(),
-    OpeningPage(),
+    AddNew(),
     ProfilePage(),
   ];
 
@@ -45,7 +46,7 @@ class BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.track_changes),
             label: 'Productivity',
-            backgroundColor: Color.fromARGB(255, 95, 159, 184),
+            backgroundColor: Color.fromARGB(255, 79, 138, 162),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
@@ -55,7 +56,7 @@ class BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person_2),
             label: 'Profile',
-            backgroundColor: Color.fromARGB(255, 95, 159, 184),
+            backgroundColor: Color.fromARGB(255, 79, 138, 162),
           ),
         ],
       ),
