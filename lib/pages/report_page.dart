@@ -37,23 +37,28 @@ class ReportPage extends StatelessWidget {
             SizedBox(
               height: 300,
               child: DefaultTabController(
-                length: 2,
+                length: 4,
                 child: Column(
                   children: [
                     Container(
                       //decoration: BoxDecoration(color: Colors.white),
                       child: TabBar(
                         tabs: [
-                          Tab(text: 'Hello'),
-                          Tab(text: 'World'),
+                          Tab(text: 'Day'),
+                          Tab(text: 'Week'),
+                          Tab(text: 'Month'),
+                          Tab(text: 'Year'),
                         ],
                       ),
                     ),
                     Expanded(
                       child: TabBarView(
+                        //QUESTION: How does it know which TabBar to check? What if there were two tabbars?
                         children: [
-                          Text('This is the dayy tab'),
-                          Text('This is the week tab'),
+                          ImageContainer(imageUrl: 'assets/day.png'),
+                          ImageContainer(imageUrl: 'assets/week.png'),
+                          ImageContainer(imageUrl: 'assets/month.png'),
+                          ImageContainer(imageUrl: 'assets/year.png'),
                         ],
                       ),
                     ),
@@ -89,6 +94,26 @@ class ReportPage extends StatelessWidget {
           letterSpacing: 1.2,
           wordSpacing: 8,
         ),
+      ),
+    );
+  }
+}
+
+class ImageContainer extends StatelessWidget {
+  const ImageContainer({super.key, required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          border: Border.all(width: 5, color: Color.fromARGB(255, 27, 87, 110)),
+        ),
+        padding: EdgeInsets.all(10),
+        child: Image.asset(imageUrl),
       ),
     );
   }
