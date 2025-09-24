@@ -96,37 +96,46 @@ class CurrentTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      width: double.infinity,
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 231, 246, 251),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 8,
-            spreadRadius: 1,
-            offset: Offset(0, 4),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => TimerDetailPage(title: title, timer: timer),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                timer,
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              Icon(Icons.arrow_forward_ios, size: 25),
-            ],
-          ),
-          Text(title, style: TextStyle(fontSize: 20)),
-        ],
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16),
+        width: double.infinity,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 231, 246, 251),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 8,
+              spreadRadius: 1,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  timer,
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                Icon(Icons.arrow_forward_ios, size: 25),
+              ],
+            ),
+            Text(title, style: TextStyle(fontSize: 20)),
+          ],
+        ),
       ),
     );
   }
@@ -151,7 +160,7 @@ class TimerCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        //borderRadius: BorderRadius.circular(20),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
