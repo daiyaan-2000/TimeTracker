@@ -263,13 +263,10 @@ class TaskContainers extends StatelessWidget {
       //alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 95, 159, 184),
+        color: Color.fromARGB(255, 79, 138, 162),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(
-        label,
-        style: TextStyle(color: Color.fromARGB(255, 38, 88, 108)),
-      ),
+      child: Text(label, style: TextStyle(color: Colors.white)),
     );
   }
 }
