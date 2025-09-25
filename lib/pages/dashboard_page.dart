@@ -12,58 +12,62 @@ class DashboardPage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Task',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                Icon(Icons.more_horiz),
-              ],
-            ),
-            CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Today',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'See All',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Task',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Icon(Icons.more_horiz),
+                ],
+              ),
+              CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Today',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'See All',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
 
-            TimerCard(
-              icon: Icon(Icons.computer, color: Colors.white),
-              title: 'Flutter Project',
-              timer: '08:45:15',
-              details: ['Work', 'UI Design'],
-            ),
-            TimerCard(
-              icon: Icon(Icons.language, color: Colors.white),
-              title: 'Dart Language Training',
-              timer: '00:00:00',
-              details: [
-                'Loops',
-                'Conditionals',
-                'Widgets',
-                'Asynchronous programming',
-              ],
-            ),
-            TimerCard(
-              icon: Icon(Icons.sports_soccer, color: Colors.white),
-              title: 'Footy Practice',
-              timer: '00:00:00',
-            ),
-          ],
+              TimerCard(
+                icon: Icon(Icons.computer, color: Colors.white),
+                title: 'Flutter Project',
+                timer: '08:45:15',
+                details: ['Work', 'UI Design'],
+              ),
+              TimerCard(
+                icon: Icon(Icons.language, color: Colors.white),
+                title: 'Dart Language Training',
+                timer: '00:00:00',
+                details: [
+                  'Loops',
+                  'Conditionals',
+                  'Widgets',
+                  'Asynchronous programming',
+                ],
+              ),
+              TimerCard(
+                icon: Icon(Icons.sports_soccer, color: Colors.white),
+                title: 'Footy Practice',
+                timer: '00:00:00',
+              ),
+            ],
+          ),
         ),
       ),
     );
