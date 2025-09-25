@@ -19,24 +19,19 @@ class OpeningPage extends StatelessWidget {
               //color: Colors.white,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                border: BoxBorder.all(color: Colors.black, width: 5),
+                border: BoxBorder.all(color: Colors.black, width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 20,
-                    blurRadius: 20,
+                    spreadRadius: 4,
+                    blurRadius: 4,
                     offset: Offset(0, 3),
                   ),
                 ],
 
                 color: Color.fromARGB(255, 226, 246, 253),
               ),
-              child: Center(
-                child: Text(
-                  'My first app UI',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
+              child: Center(child: Image.asset('logo.png')),
             ),
 
             SizedBox(height: 110),
