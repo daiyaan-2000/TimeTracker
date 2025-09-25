@@ -24,11 +24,12 @@ class DashboardPage extends StatelessWidget {
                     'Task',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  Icon(Icons.more_horiz),
+                  Icon(Icons.more_horiz, color: Colors.grey),
                 ],
               ),
+              SizedBox(height: 24),
               CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
-              SizedBox(height: 16),
+              SizedBox(height: 32),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,19 +39,23 @@ class DashboardPage extends StatelessWidget {
                   ),
                   Text(
                     'See All',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
 
-              TimerCard(
+              TaskCards(
                 icon: Icon(Icons.computer, color: Colors.white),
                 title: 'Flutter Project',
                 timer: '08:45:15',
                 details: ['Work', 'UI Design'],
               ),
-              TimerCard(
+              const SizedBox(height: 16),
+              TaskCards(
                 icon: Icon(Icons.language, color: Colors.white),
                 title: 'Dart Language Training',
                 timer: '00:00:00',
@@ -61,7 +66,8 @@ class DashboardPage extends StatelessWidget {
                   'Asynchronous programming',
                 ],
               ),
-              TimerCard(
+              const SizedBox(height: 16),
+              TaskCards(
                 icon: Icon(Icons.sports_soccer, color: Colors.white),
                 title: 'Footy Practice',
                 timer: '00:00:00',
@@ -91,7 +97,7 @@ class CurrentTimer extends StatelessWidget {
         );
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 16),
+        //margin: EdgeInsets.only(bottom: 16),
         width: double.infinity,
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -114,12 +120,12 @@ class CurrentTimer extends StatelessWidget {
               children: [
                 Text(
                   timer,
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 Icon(Icons.arrow_forward_ios, size: 25),
               ],
             ),
-            Text(title, style: TextStyle(fontSize: 20)),
+            Text(title, style: TextStyle(fontSize: 16)),
           ],
         ),
       ),
@@ -127,8 +133,8 @@ class CurrentTimer extends StatelessWidget {
   }
 }
 
-class TimerCard extends StatelessWidget {
-  const TimerCard({
+class TaskCards extends StatelessWidget {
+  const TaskCards({
     super.key,
     required this.icon,
     required this.title,
@@ -162,7 +168,7 @@ class TimerCard extends StatelessWidget {
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -201,15 +207,15 @@ class TimerCard extends StatelessWidget {
                             title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                              fontSize: 14,
                             ),
                           ),
 
                           Wrap(
-                            spacing: 4,
+                            spacing: 8,
                             runSpacing: 4,
                             children: [
-                              for (var i in details) TaskContainers(label: i),
+                              for (var i in details) TaskDescriptions(label: i),
                             ],
                           ),
                         ],
@@ -225,8 +231,12 @@ class TimerCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(timer),
-                    Icon(Icons.play_arrow_rounded, size: 30),
+                    Text(timer, style: TextStyle(fontSize: 12)),
+                    Icon(
+                      Icons.play_arrow_rounded,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
                   ],
                 ),
               ),
@@ -238,8 +248,8 @@ class TimerCard extends StatelessWidget {
   }
 }
 
-class TaskContainers extends StatelessWidget {
-  const TaskContainers({super.key, required this.label});
+class TaskDescriptions extends StatelessWidget {
+  const TaskDescriptions({super.key, required this.label});
 
   final String label;
 
@@ -252,7 +262,7 @@ class TaskContainers extends StatelessWidget {
         color: Color.fromARGB(255, 79, 138, 162),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(label, style: TextStyle(color: Colors.white)),
+      child: Text(label, style: TextStyle(color: Colors.white, fontSize: 12)),
     );
   }
 }
