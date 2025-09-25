@@ -71,6 +71,7 @@ class DashboardPage extends StatelessWidget {
                 icon: Icon(Icons.sports_soccer, color: Colors.white),
                 title: 'Footy Practice',
                 timer: '00:00:00',
+                details: ['Drills', 'Matches', 'Warmup'],
               ),
             ],
           ),
@@ -125,7 +126,14 @@ class CurrentTimer extends StatelessWidget {
                 Icon(Icons.arrow_forward_ios, size: 25),
               ],
             ),
-            Text(title, style: TextStyle(fontSize: 16)),
+            SizedBox(height: 24),
+            Row(
+              children: [
+                Icon(Icons.fiber_manual_record_outlined),
+                SizedBox(width: 12),
+                Text(title, style: TextStyle(fontSize: 16)),
+              ],
+            ),
           ],
         ),
       ),
@@ -173,8 +181,8 @@ class TaskCards extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 2,
-                spreadRadius: 2,
-                offset: Offset(0, 2),
+                spreadRadius: 1,
+                offset: Offset(0, 1),
               ),
             ],
           ),
@@ -232,9 +240,10 @@ class TaskCards extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(timer, style: TextStyle(fontSize: 12)),
+                    SizedBox(height: 8),
                     Icon(
                       Icons.play_arrow_rounded,
-                      size: 30,
+                      size: 32,
                       color: Colors.grey,
                     ),
                   ],
@@ -257,10 +266,10 @@ class TaskDescriptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 79, 138, 162),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(label, style: TextStyle(color: Colors.white, fontSize: 12)),
     );
