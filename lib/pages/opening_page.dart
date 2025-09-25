@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class OpeningPage extends StatelessWidget {
@@ -47,20 +46,23 @@ class OpeningPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      spreadRadius: 3,
-                      blurRadius: 5,
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 4,
+                      blurRadius: 4,
                       offset: Offset(0, 3),
                     ),
                   ],
-                  borderRadius: BorderRadius.circular(20),
-                  border: BoxBorder.all(color: Colors.black, width: 2),
+                  borderRadius: BorderRadius.circular(100),
+                  border: BoxBorder.all(color: Colors.black, width: 1),
 
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 226, 246, 253),
                 ),
                 child: Text(
                   'Press here to start',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 27, 87, 110),
+                  ),
                 ),
               ),
             ),

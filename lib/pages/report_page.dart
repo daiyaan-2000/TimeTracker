@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
 
 class ReportPage extends StatelessWidget {

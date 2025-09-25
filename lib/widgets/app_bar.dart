@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar myappBar(String page_header) {
+AppBar myappBar(String pageHeader) {
   return AppBar(
     backgroundColor: Color.fromARGB(255, 255, 255, 255),
     centerTitle: true,
@@ -15,7 +15,7 @@ AppBar myappBar(String page_header) {
       SizedBox(width: 20),
     ],
     title: Text(
-      page_header,
+      pageHeader,
       style: TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.bold,

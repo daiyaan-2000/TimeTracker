@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/add_new_page.dart';
-import 'package:time_tracker/pages/report_page.dart';
-import 'package:time_tracker/pages/stopwatch.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
-import 'package:time_tracker/widgets/botton_nav_bar.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -18,6 +14,16 @@ class DashboardPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Task',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Icon(Icons.more_horiz),
+              ],
+            ),
             CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
             SizedBox(height: 16),
             Row(

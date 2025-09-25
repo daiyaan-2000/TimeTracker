@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_tracker/widgets/app_bar.dart';
 
 enum TimerMode { stopped, running, paused }
 
@@ -77,10 +78,37 @@ class _AddNewState extends State<AddNew> {
     }
 
     return Scaffold(
+      appBar: myappBar('Add new timer'),
       backgroundColor: const Color.fromARGB(255, 27, 87, 110),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        //spacing: 4,
         children: [
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color.fromARGB(255, 226, 246, 253).withOpacity(0.1),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter timer title',
+                    labelStyle: TextStyle(
+                      color: Color.fromARGB(255, 226, 246, 253),
+                    ),
+                    hintText: 'e.g: Flutter project',
+                    hintStyle: TextStyle(
+                      color: Color.fromARGB(255, 79, 138, 162),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+            ],
+          ),
           Container(
             height: 400,
             width: 400,
