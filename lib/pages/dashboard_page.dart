@@ -12,69 +12,61 @@ class DashboardPage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 226, 246, 253),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Task',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  Icon(Icons.more_horiz, color: Colors.grey),
-                ],
-              ),
-              SizedBox(height: 24),
-              CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
-              SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Today',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+        child: Column(
+          children: [
+            SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Task',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Icon(Icons.more_horiz, color: Colors.grey),
+              ],
+            ),
+            SizedBox(height: 24),
+            CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
+            SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Today',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'See All',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
 
-              TaskCards(
-                icon: Icon(Icons.computer, color: Colors.white),
-                title: 'Flutter Project',
-                timer: '08:45:15',
-                details: ['Work', 'UI Design'],
-              ),
-              const SizedBox(height: 16),
-              TaskCards(
-                icon: Icon(Icons.language, color: Colors.white),
-                title: 'Dart Language Training',
-                timer: '00:00:00',
-                details: [
-                  'Loops',
-                  'Conditionals',
-                  'Widgets',
-                  'Asynchronous programming',
-                ],
-              ),
-              const SizedBox(height: 16),
-              TaskCards(
-                icon: Icon(Icons.sports_soccer, color: Colors.white),
-                title: 'Footy Practice',
-                timer: '00:00:00',
-                details: ['Drills', 'Matches', 'Warmup'],
-              ),
-            ],
-          ),
+            TaskCards(
+              icon: Icon(Icons.computer, color: Colors.white),
+              title: 'Flutter Project',
+              timer: '08:45:15',
+              details: ['Work', 'UI Design'],
+            ),
+            TaskCards(
+              icon: Icon(Icons.language, color: Colors.white),
+              title: 'Dart Language Training',
+              timer: '00:00:00',
+              details: [
+                'Loops',
+                'Conditionals',
+                'Widgets',
+                'Asynchronous programming',
+              ],
+            ),
+            TaskCards(
+              icon: Icon(Icons.sports_soccer, color: Colors.white),
+              title: 'Footy Practice',
+              timer: '00:00:00',
+              details: ['Drills', 'Matches', 'Warmup'],
+            ),
+          ],
         ),
       ),
     );
