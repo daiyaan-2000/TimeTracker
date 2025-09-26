@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
+import 'dart:math' as math;
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -9,7 +10,7 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myappBar('TIME TRACKER APP'),
-      backgroundColor: Color.fromARGB(255, 226, 246, 253),
+      backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -44,13 +45,13 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 16),
 
             TaskCards(
-              icon: Icon(Icons.computer, color: Colors.white),
+              iconData: Icons.computer,
               title: 'Flutter Project',
               timer: '08:45:15',
               details: ['Work', 'UI Design'],
             ),
             TaskCards(
-              icon: Icon(Icons.language, color: Colors.white),
+              iconData: Icons.language,
               title: 'Dart Language Training',
               timer: '00:00:00',
               details: [
@@ -61,7 +62,7 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             TaskCards(
-              icon: Icon(Icons.sports_soccer, color: Colors.white),
+              iconData: Icons.sports_soccer,
               title: 'Footy Practice',
               timer: '00:00:00',
               details: ['Drills', 'Matches', 'Warmup'],
@@ -94,16 +95,16 @@ class CurrentTimer extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 231, 246, 251),
+          color: Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          /*boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               blurRadius: 8,
               spreadRadius: 1,
               offset: Offset(0, 4),
             ),
-          ],
+          ]*/
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +122,10 @@ class CurrentTimer extends StatelessWidget {
             SizedBox(height: 24),
             Row(
               children: [
-                Icon(Icons.fiber_manual_record_outlined),
+                Icon(
+                  Icons.fiber_manual_record_outlined,
+                  color: Colors.deepPurpleAccent,
+                ),
                 SizedBox(width: 12),
                 Text(title, style: TextStyle(fontSize: 16)),
               ],
@@ -136,13 +140,13 @@ class CurrentTimer extends StatelessWidget {
 class TaskCards extends StatelessWidget {
   const TaskCards({
     super.key,
-    required this.icon,
+    required this.iconData,
     required this.title,
     required this.timer,
     this.details = const [],
   });
 
-  final Icon icon;
+  final IconData iconData;
   final String title;
   final String timer;
   final List<String> details;
@@ -169,14 +173,14 @@ class TaskCards extends StatelessWidget {
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
+            /*boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 2,
                 spreadRadius: 1,
                 offset: Offset(0, 1),
               ),
-            ],
+            ],*/
           ),
           child: Row(
             //2
@@ -192,9 +196,11 @@ class TaskCards extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 27, 87, 110),
+                      backgroundColor: Color(
+                        (math.Random().nextDouble() * 0xFFFFFF).toInt(),
+                      ).withOpacity(1.0),
                       radius: 25,
-                      child: icon,
+                      child: Icon(iconData, color: Colors.white),
                     ),
 
                     Expanded(
@@ -250,9 +256,10 @@ class TaskCards extends StatelessWidget {
 }
 
 class TaskDescriptions extends StatelessWidget {
-  const TaskDescriptions({super.key, required this.label});
+  TaskDescriptions({super.key, required this.label});
 
   final String label;
+  final Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt());
 
   @override
   Widget build(BuildContext context) {
@@ -260,10 +267,13 @@ class TaskDescriptions extends StatelessWidget {
       //alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 79, 138, 162),
+        color: color.withOpacity(0.5),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Text(label, style: TextStyle(color: Colors.white, fontSize: 12)),
+      child: Text(
+        label,
+        style: TextStyle(color: color.withOpacity(1), fontSize: 12),
+      ),
     );
   }
 }
