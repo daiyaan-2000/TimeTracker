@@ -26,7 +26,7 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 24),
-            CurrentTimer(timer: '00:32:45', title: 'TimePad Project'),
+            CurrentTimer(timer: '32:45', title: 'TimePad Project'),
             SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
