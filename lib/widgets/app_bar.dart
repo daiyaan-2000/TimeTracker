@@ -5,15 +5,8 @@ AppBar myappBar(String pageHeader) {
     backgroundColor: Color.fromARGB(255, 255, 255, 255),
     centerTitle: true,
     elevation: 0,
-    leading: Icon(Icons.home),
-    actions: [
-      Icon(Icons.notification_add),
-      SizedBox(width: 20),
-      Icon(Icons.person),
-      SizedBox(width: 20),
-      Icon(Icons.settings),
-      SizedBox(width: 20),
-    ],
+    leading: Icon(Icons.arrow_back),
+    actions: [],
     title: Text(
       pageHeader,
       style: TextStyle(

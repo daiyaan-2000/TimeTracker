@@ -15,6 +15,5 @@ FIGMA THEME
 Background ash -  Color.fromRGBO(250, 250, 255, 100)
 Random colour - Color(
     (math.Random().nextDouble() * 0xFFFFFF).toInt()
-
-
+Purplish background- Color.fromRGBO(233, 233, 255, 100)
 */

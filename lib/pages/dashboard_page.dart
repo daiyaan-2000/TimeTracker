@@ -9,13 +9,13 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myappBar('TIME TRACKER APP'),
+      //appBar: myappBar('TIME TRACKER APP'),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            SizedBox(height: 24),
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

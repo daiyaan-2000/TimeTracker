@@ -7,18 +7,19 @@ class OpeningPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 27, 87, 110),
+      backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 24),
               height: 200,
               width: 400,
               //color: Colors.white,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                border: BoxBorder.all(color: Colors.black, width: 1),
+                //border: BoxBorder.all(color: Colors.black, width: 0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),

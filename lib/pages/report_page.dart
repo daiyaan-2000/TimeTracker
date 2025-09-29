@@ -8,7 +8,7 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myappBar('Productivity Report'),
+      appBar: myappBar('My Productivity'),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -35,28 +35,76 @@ class ReportPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 40),
             SizedBox(
               height: 300,
               child: DefaultTabController(
-                length: 4,
+                length: 2,
                 child: Column(
                   children: [
                     Container(
-                      //decoration: BoxDecoration(color: Colors.white),
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(233, 233, 255, 100),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: TabBar(
                         tabs: [
                           Tab(text: 'Day'),
                           Tab(text: 'Week'),
                         ],
+                        indicator: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.grey,
+                        dividerColor: Colors.transparent,
                       ),
                     ),
                     Expanded(
                       child: TabBarView(
                         //QUESTION: How does it know which TabBar to check? What if there were two tabbars?
                         children: [
-                          ImageContainer(imageUrl: 'assets/day.png'),
-                          ImageContainer(imageUrl: 'assets/week.png'),
+                          Container(
+                            height: 500,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+
+                            margin: EdgeInsets.symmetric(
+                              vertical: 24,
+                              horizontal: 16,
+                            ),
+
+                            child: Icon(
+                              Icons.show_chart,
+                              size: 150,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Container(
+                            height: 500,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+
+                            margin: EdgeInsets.symmetric(
+                              vertical: 24,
+                              horizontal: 16,
+                            ),
+
+                            child: Icon(
+                              Icons.show_chart,
+                              size: 150,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                          ),
                         ],
                       ),
                     ),
