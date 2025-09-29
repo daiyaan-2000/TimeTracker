@@ -138,7 +138,7 @@ class CurrentTimer extends StatelessWidget {
 }
 
 class TaskCards extends StatelessWidget {
-  const TaskCards({
+  TaskCards({
     super.key,
     required this.iconData,
     required this.title,
@@ -150,6 +150,9 @@ class TaskCards extends StatelessWidget {
   final String title;
   final String timer;
   final List<String> details;
+  final Color randomColor = Color(
+    (math.Random().nextDouble() * 0xFFFFFF).toInt(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -196,9 +199,7 @@ class TaskCards extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Color(
-                        (math.Random().nextDouble() * 0xFFFFFF).toInt(),
-                      ).withOpacity(1.0),
+                      backgroundColor: randomColor.withOpacity(1.0),
                       radius: 25,
                       child: Icon(iconData, color: Colors.white),
                     ),
@@ -221,7 +222,8 @@ class TaskCards extends StatelessWidget {
                             spacing: 8,
                             runSpacing: 4,
                             children: [
-                              for (var i in details) TaskDescriptions(label: i),
+                              for (var i in details)
+                                TaskDescriptions(label: i, color: randomColor),
                             ],
                           ),
                         ],
@@ -256,10 +258,10 @@ class TaskCards extends StatelessWidget {
 }
 
 class TaskDescriptions extends StatelessWidget {
-  TaskDescriptions({super.key, required this.label});
+  TaskDescriptions({super.key, required this.label, required this.color});
 
   final String label;
-  final Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt());
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
