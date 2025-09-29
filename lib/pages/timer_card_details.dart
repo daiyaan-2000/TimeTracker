@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/flutter_percent_indicator.dart';
 
 class TimerDetailPage extends StatelessWidget {
   final String title;
@@ -8,6 +9,13 @@ class TimerDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> parts = timer.split(":"); // ["32", "15"]
+    int minutes = int.parse(parts[0]);
+    int seconds = int.parse(parts[1]);
+
+    double num = (seconds / 60);
+    double percentage = (minutes + num) / 100;
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -24,25 +32,16 @@ class TimerDetailPage extends StatelessWidget {
               ],
             ),
             //SizedBox(height: 80),
-            Container(
-              height: 250,
-              width: 250,
-              padding: EdgeInsets.all(30),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 10,
-                  color: const Color.fromARGB(255, 145, 94, 234),
-                ),
-                shape: BoxShape.circle,
-              ),
-              child: Text(
+            CircularPercentIndicator(
+              radius: 110,
+              progressColor: Colors.deepPurpleAccent,
+              backgroundColor: const Color.fromARGB(255, 225, 224, 224),
+              percent: percentage,
+              lineWidth: 20,
+              animation: true,
+              center: Text(
                 timer,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
             ),
 

@@ -47,13 +47,13 @@ class DashboardPage extends StatelessWidget {
             TaskCards(
               iconData: Icons.computer,
               title: 'Flutter Project',
-              timer: '08:45:15',
+              timer: '45:15',
               details: ['Work', 'UI Design'],
             ),
             TaskCards(
               iconData: Icons.language,
               title: 'Dart Language Training',
-              timer: '00:00:00',
+              timer: '60:00',
               details: [
                 'Loops',
                 'Conditionals',
@@ -64,7 +64,7 @@ class DashboardPage extends StatelessWidget {
             TaskCards(
               iconData: Icons.sports_soccer,
               title: 'Footy Practice',
-              timer: '00:00:00',
+              timer: '20:05',
               details: ['Drills', 'Matches', 'Warmup'],
             ),
           ],
