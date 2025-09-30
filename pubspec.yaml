@@ -100,7 +100,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Rubik_regular.ttf
         - asset: assets/fonts/Rubik_italic.ttf
-          weight: 700
+          weight: 900
        
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

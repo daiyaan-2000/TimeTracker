@@ -11,7 +11,7 @@ AppBar myappBar(String pageHeader) {
       pageHeader,
       style: TextStyle(
         fontSize: 25,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w800,
         letterSpacing: 1.2,
         wordSpacing: 8,
       ),
