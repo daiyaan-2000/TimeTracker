@@ -22,14 +22,14 @@ class ReportPage extends StatelessWidget {
               children: [
                 //-----------------------FIRST BOX-------------------------------------------------
                 OverViewBox(
-                  iconData: Icons.check,
+                  iconInfo: Icons.check,
                   title: 'Tasks Completed',
                   tasksCompleted: '12',
                 ),
 
                 //-----------------------FIRST BOX-------------------------------------------------
                 OverViewBox(
-                  iconData: Icons.timer_outlined,
+                  iconInfo: 'assets/icons/stopwatch.png',
                   title: 'Time Duration',
                   tasksCompleted: '1h 45m',
                 ),
@@ -142,12 +142,12 @@ class ImageContainer extends StatelessWidget {
 class OverViewBox extends StatelessWidget {
   const OverViewBox({
     super.key,
-    required this.iconData,
+    required this.iconInfo,
     required this.title,
     required this.tasksCompleted,
   });
 
-  final IconData iconData;
+  final iconInfo;
 
   final String title;
 
@@ -189,7 +189,13 @@ class OverViewBox extends StatelessWidget {
                       (math.Random().nextInt(128)), // blue 0–127
                     ),
                   ),
-                  child: Icon(iconData, color: Colors.white, size: 24),
+                  child: iconInfo.runtimeType == IconData
+                      ? Icon(iconInfo, color: Colors.white, size: 24)
+                      : ImageIcon(
+                          AssetImage(iconInfo),
+                          color: Colors.white,
+                          size: 24,
+                        ),
                 ),
                 Expanded(
                   //alignment: WrapAlignment.start,

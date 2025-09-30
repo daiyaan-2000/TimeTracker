@@ -51,21 +51,25 @@ class BottomNavBarState extends State<BottomNavBar> {
             BottomNavigationBarItem(
               icon: CircleAvatar(
                 radius: 25,
-                backgroundColor: selectedIndex == 0
-                    ? Colors.black
-                    : Colors.transparent,
-                child: Icon(
-                  Icons.home,
-                  size: 30,
-                  color: selectedIndex == 0 ? Colors.white : Colors.grey,
-                ),
+                backgroundColor: Colors.transparent,
+                child: selectedIndex == 0
+                    ? ImageIcon(
+                        AssetImage('assets/icons/Icon Time.png'),
+                        size: 30,
+                        //color: Colors.white,
+                      )
+                    : ImageIcon(
+                        AssetImage('assets/icons/time-outline.png'),
+                        size: 30,
+                        color: Colors.grey,
+                      ),
               ),
               label: 'Home',
-              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              //backgroundColor: Color.fromARGB(255, 0, 0, 0),
             ),
             BottomNavigationBarItem(
               icon: CircleAvatar(
-                radius: 25,
+                radius: 22,
                 backgroundColor: selectedIndex == 1
                     ? Colors.black
                     : Colors.transparent,
@@ -81,17 +85,21 @@ class BottomNavBarState extends State<BottomNavBar> {
             BottomNavigationBarItem(
               icon: CircleAvatar(
                 radius: 25,
-                backgroundColor: selectedIndex == 2
-                    ? Colors.black
-                    : Colors.transparent,
-                child: Icon(
-                  Icons.pie_chart,
-                  size: 30,
-                  color: selectedIndex == 2 ? Colors.white : Colors.grey,
-                ),
+                backgroundColor: Colors.transparent,
+                child: selectedIndex == 2
+                    ? ImageIcon(
+                        AssetImage('assets/icons/pie-chart filled.png'),
+                        size: 30,
+                        //color: Colors.white,
+                      )
+                    : ImageIcon(
+                        AssetImage('assets/icons/pie-chart.png'),
+                        size: 30,
+                        color: Colors.grey,
+                      ),
               ),
-              label: 'Add New',
-              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              label: 'Home',
+              //backgroundColor: Color.fromARGB(255, 0, 0, 0),
             ),
             /*
             BottomNavigationBarItem(

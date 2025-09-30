@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
-import 'package:time_tracker/widgets/app_bar.dart';
+//import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:math' as math;
 
 class DashboardPage extends StatelessWidget {
@@ -48,13 +48,13 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 16),
 
             TaskCards(
-              iconData: Icons.computer,
+              iconInfo: 'assets/icons/monitor.png',
               title: 'Flutter Project',
               timer: '45:15',
               details: ['Work', 'UI Design'],
             ),
             TaskCards(
-              iconData: Icons.language,
+              iconInfo: Icons.language,
               title: 'Dart Language Training',
               timer: '60:00',
               details: [
@@ -65,7 +65,7 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
             TaskCards(
-              iconData: Icons.sports_soccer,
+              iconInfo: Icons.sports_soccer,
               title: 'Footy Practice',
               timer: '20:05',
               details: ['Drills', 'Matches', 'Warmup'],
@@ -119,7 +119,7 @@ class CurrentTimer extends StatelessWidget {
                   timer,
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                Icon(Icons.arrow_forward_ios, size: 25),
+                ImageIcon(AssetImage('assets/icons/right arrow.png'), size: 25),
               ],
             ),
             SizedBox(height: 24),
@@ -143,13 +143,13 @@ class CurrentTimer extends StatelessWidget {
 class TaskCards extends StatelessWidget {
   TaskCards({
     super.key,
-    required this.iconData,
+    required this.iconInfo,
     required this.title,
     required this.timer,
     this.details = const [],
   });
 
-  final IconData iconData;
+  final iconInfo;
   final String title;
   final String timer;
   final List<String> details;
@@ -159,6 +159,7 @@ class TaskCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final String iconFile = 'assets/icons/$iconInfo';
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -203,8 +204,13 @@ class TaskCards extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: randomColor.withOpacity(1.0),
-                      radius: 25,
-                      child: Icon(iconData, color: Colors.white),
+                      radius: 22,
+                      child: iconInfo.runtimeType == IconData
+                          ? Icon(iconInfo, color: Colors.white)
+                          : ImageIcon(
+                              AssetImage(iconInfo),
+                              color: Colors.white,
+                            ),
                     ),
 
                     Expanded(
