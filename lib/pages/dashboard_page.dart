@@ -24,7 +24,7 @@ class DashboardPage extends StatelessWidget {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 ImageIcon(
-                  AssetImage('assets/icons/analytics.png'),
+                  AssetImage('assets/icons/more.png'),
                   color: Colors.grey,
                 ),
               ],

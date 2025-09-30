@@ -90,7 +90,7 @@ class TimerDetailPage extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: Color.fromRGBO(233, 233, 255, 100),
                       radius: 32,
-                      child: Icon(Icons.stop, size: 32, color: Colors.grey),
+                      child: Icon(Icons.stop, size: 200, color: Colors.grey),
                     ),
                     SizedBox(height: 4),
                     Text(

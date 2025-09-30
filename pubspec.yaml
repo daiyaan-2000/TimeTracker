@@ -66,6 +66,23 @@ flutter:
     - assets/year.png
     - assets/logo.png
     - assets/icons/analytics.png
+    - assets/icons/analysis.png
+    - assets/icons/arrow back.png
+    - assets/icons/calendar.png
+    - assets/icons/Icon Add.png
+    - assets/icons/Icon Time.png
+    - assets/icons/monitor.png
+    - assets/icons/more.png
+    - assets/icons/pie-chart filled.png
+    - assets/icons/pie-chart.png
+    - assets/icons/plus.png
+    - assets/icons/right arrow.png
+    - assets/icons/stopwatch.png
+    - assets/icons/time-outline.png
+    - assets/icons/timepad v1.png
+  
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
