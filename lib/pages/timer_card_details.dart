@@ -26,15 +26,28 @@ class TimerDetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.fiber_manual_record_outlined),
+                Icon(
+                  Icons.fiber_manual_record_outlined,
+                  color: Colors.deepPurpleAccent,
+                ),
                 SizedBox(width: 12),
                 Text('UI Design', style: TextStyle(fontSize: 16)),
               ],
             ),
             //SizedBox(height: 80),
             CircularPercentIndicator(
+              linearGradient: LinearGradient(
+                colors: [
+                  const Color.fromARGB(255, 179, 155, 246),
+                  Colors.deepPurpleAccent,
+                  const Color.fromARGB(255, 86, 29, 241),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              circularStrokeCap: CircularStrokeCap.round,
               radius: 110,
-              progressColor: Colors.deepPurpleAccent,
+              //progressColor: Colors.deepPurpleAccent,
               backgroundColor: const Color.fromARGB(255, 225, 224, 224),
               percent: percentage,
               lineWidth: 20,

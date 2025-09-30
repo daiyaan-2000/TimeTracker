@@ -23,11 +23,14 @@ class DashboardPage extends StatelessWidget {
                   'Task',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                Icon(Icons.more_horiz, color: Colors.grey),
+                ImageIcon(
+                  AssetImage('assets/icons/analytics.png'),
+                  color: Colors.grey,
+                ),
               ],
             ),
             SizedBox(height: 24),
-            CurrentTimer(timer: '32:45', title: 'TimePad Project'),
+            CurrentTimer(timer: '50:45', title: 'TimePad Project'),
             SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
