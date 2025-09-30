@@ -117,7 +117,11 @@ class CurrentTimer extends StatelessWidget {
               children: [
                 Text(
                   timer,
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Rubik',
+                  ),
                 ),
                 ImageIcon(AssetImage('assets/icons/right arrow.png'), size: 25),
               ],
@@ -130,7 +134,10 @@ class CurrentTimer extends StatelessWidget {
                   color: Colors.deepPurpleAccent,
                 ),
                 SizedBox(width: 12),
-                Text(title, style: TextStyle(fontSize: 16)),
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
               ],
             ),
           ],
@@ -222,7 +229,7 @@ class TaskCards extends StatelessWidget {
                           Text(
                             title,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
                           ),
