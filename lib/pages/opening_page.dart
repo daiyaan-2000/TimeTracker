@@ -7,30 +7,13 @@ class OpeningPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(250, 250, 255, 100),
+      backgroundColor: Color.fromRGBO(208, 208, 255, 1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 24),
-              height: 200,
-              width: 400,
-              //color: Colors.white,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                //border: BoxBorder.all(color: Colors.black, width: 0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-
-                color: Color.fromARGB(255, 226, 246, 253),
-              ),
+              margin: EdgeInsets.all(50),
               child: Center(child: Image.asset('logo.png')),
             ),
 
@@ -48,21 +31,21 @@ class OpeningPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 4,
-                      blurRadius: 4,
-                      offset: Offset(0, 3),
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      offset: Offset(0, 2),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(100),
-                  border: BoxBorder.all(color: Colors.black, width: 1),
 
-                  color: Color.fromARGB(255, 226, 246, 253),
+                  //border: BoxBorder.all(color: Colors.black, width: 1),
+                  color: Color.fromRGBO(229, 229, 250, 1),
                 ),
                 child: Text(
                   'Press here to start',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 27, 87, 110),
+                    color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
               ),

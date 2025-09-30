@@ -31,7 +31,8 @@ class TaskCards extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => TimerDetailPage(title: title, timer: timer),
+              builder: (_) =>
+                  TimerDetailPage(title: title, timer: timer, details: details),
             ),
           );
         },
@@ -86,7 +87,7 @@ class TaskCards extends StatelessWidget {
                           Text(
                             title,
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               fontSize: 14,
                             ),
                           ),
@@ -112,7 +113,13 @@ class TaskCards extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(timer, style: TextStyle(fontSize: 12)),
+                    Text(
+                      timer,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     SizedBox(height: 8),
                     Icon(
                       Icons.play_arrow_rounded,

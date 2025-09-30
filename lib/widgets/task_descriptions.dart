@@ -17,7 +17,11 @@ class TaskDescriptions extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: color.withOpacity(1), fontSize: 12),
+        style: TextStyle(
+          color: color.withOpacity(1),
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

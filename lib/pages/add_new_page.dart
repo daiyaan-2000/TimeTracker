@@ -78,7 +78,15 @@ class _AddNewState extends State<AddNew> {
     }
 
     return Scaffold(
-      appBar: myappBar('Add new timer'),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            'Add New Timer',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

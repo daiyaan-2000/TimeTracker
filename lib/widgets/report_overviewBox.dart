@@ -6,14 +6,14 @@ class OverViewBox extends StatelessWidget {
     super.key,
     required this.iconInfo,
     required this.title,
-    required this.tasksCompleted,
+    required this.overviewDetails,
   });
 
   final iconInfo;
 
   final String title;
 
-  final String tasksCompleted;
+  final String overviewDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +61,17 @@ class OverViewBox extends StatelessWidget {
                 ),
                 Expanded(
                   //alignment: WrapAlignment.start,
-                  child: Text(title, style: TextStyle(fontSize: 16)),
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 8),
             Text(
-              tasksCompleted,
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              overviewDetails,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
             ),
           ],
         ),

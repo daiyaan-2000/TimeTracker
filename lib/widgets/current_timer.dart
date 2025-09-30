@@ -13,7 +13,8 @@ class CurrentTimer extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => TimerDetailPage(title: title, timer: timer),
+            builder: (_) =>
+                TimerDetailPage(title: title, timer: timer, details: []),
           ),
         );
       },
@@ -43,7 +44,7 @@ class CurrentTimer extends StatelessWidget {
                   timer,
                   style: TextStyle(
                     fontSize: 32,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontFamily: 'Rubik',
                   ),
                 ),
@@ -60,7 +61,7 @@ class CurrentTimer extends StatelessWidget {
                 SizedBox(width: 12),
                 Text(
                   title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ],
             ),

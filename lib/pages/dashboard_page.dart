@@ -12,7 +12,22 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: myappBar('TIME TRACKER APP'),
+      appBar: AppBar(),
+      /*
+      drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 224, 213, 252),
+        child: Column(
+          children: [
+            AppBar(
+              title: Center(child: Text('App drawer')),
+              leading: Text(''),
+            ),
+            Text('data'),
+            Text('data'),
+          ],
+        ),
+      ),
+      */
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -24,7 +39,7 @@ class DashboardPage extends StatelessWidget {
               children: [
                 Text(
                   'Task',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                 ),
                 ImageIcon(
                   AssetImage('assets/icons/more.png'),
@@ -40,7 +55,7 @@ class DashboardPage extends StatelessWidget {
               children: [
                 Text(
                   'Today',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 Text(
                   'See All',

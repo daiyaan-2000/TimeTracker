@@ -10,7 +10,15 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myappBar('My Productivity'),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            'Productivity Report',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -26,14 +34,14 @@ class ReportPage extends StatelessWidget {
                 OverViewBox(
                   iconInfo: Icons.check,
                   title: 'Tasks Completed',
-                  tasksCompleted: '12',
+                  overviewDetails: '12',
                 ),
 
                 //-----------------------FIRST BOX-------------------------------------------------
                 OverViewBox(
                   iconInfo: 'assets/icons/stopwatch.png',
                   title: 'Time Duration',
-                  tasksCompleted: '1h 45m',
+                  overviewDetails: '1h 45m',
                 ),
               ],
             ),
@@ -61,6 +69,11 @@ class ReportPage extends StatelessWidget {
                         ),
                         indicatorSize: TabBarIndicatorSize.tab,
                         labelColor: Colors.black,
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+
                         unselectedLabelColor: Colors.grey,
                         dividerColor: Colors.transparent,
                       ),
