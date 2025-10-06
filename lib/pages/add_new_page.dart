@@ -78,12 +78,9 @@ class _AddNewState extends State<AddNew> {
       if (timerState == TimerMode.stopped) {
         return Center(
           child: ElevatedButton(
-            onPressed: () {
-              setState(() {
-                timerState = TimerMode.running;
-              });
-            },
-            child: TimerButton(buttonTitle: 'START'),
+            onPressed: _start, // <— call the start method
+            style: ElevatedButton.styleFrom(minimumSize: const Size(160, 56)),
+            child: const Text('START'),
           ),
         );
       } else if (timerState == TimerMode.running) {
