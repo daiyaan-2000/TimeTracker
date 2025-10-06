@@ -13,6 +13,7 @@ class AddNew extends StatefulWidget {
 
 class _AddNewState extends State<AddNew> {
   TimerMode timerState = TimerMode.stopped;
+  final TextEditingController _titleController = TextEditingController();
 
   //STOPWATCH DEClARATIONS
   Duration _elapsed = Duration.zero;
@@ -30,27 +31,24 @@ class _AddNewState extends State<AddNew> {
 
     setState(() => timerState = TimerMode.running);
 
-    //If a timer was already running, stop it first (prevents duplicates).
     _ticker?.cancel();
 
-    // Make a new "ticker" that fires every second.
+    //ticker ticks every second
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      // Each tick: add 1 second and redraw the UI (so the text updates).
       setState(() {
-        _elapsed += const Duration(seconds: 1);
+        _elapsed += const Duration(seconds: 1); //Adds one second each tick
       });
     });
   }
 
   void _pause() {
-    // Stop the ticker (time stops increasing)…
     _ticker?.cancel();
-    // …but keep the elapsed time. We just change the mode.
+
     setState(() => timerState = TimerMode.paused);
   }
 
   void _resume() {
-    // Same as start, but notice: we do NOT reset _elapsed.
+    //Like start except the resetting
     setState(() => timerState = TimerMode.running);
 
     _ticker?.cancel();
@@ -62,13 +60,23 @@ class _AddNewState extends State<AddNew> {
   }
 
   void _stop() {
-    // Stop ticking…
     _ticker?.cancel();
-    // …and reset everything to the initial state.
     setState(() {
       timerState = TimerMode.stopped;
-      _elapsed = Duration.zero; // back to 00:00
     });
+
+    // Send back the new task info when stopping
+    Navigator.pop(context, {
+      'title': _titleController.text,
+      'timer': _mmss,
+      'details': ['Custom task'], // we’ll later make this editable
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
   }
 
   //UI DESIGN PART
@@ -149,6 +157,7 @@ class _AddNewState extends State<AddNew> {
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
                 child: TextField(
+                  controller: _titleController,
                   decoration: InputDecoration(
                     labelText: 'Enter timer title',
                     labelStyle: TextStyle(color: Colors.grey),
