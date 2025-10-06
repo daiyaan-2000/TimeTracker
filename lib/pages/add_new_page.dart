@@ -84,50 +84,39 @@ class _AddNewState extends State<AddNew> {
           ),
         );
       } else if (timerState == TimerMode.running) {
+        // Two buttons: Pause and Stop
         return Row(
-          spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  timerState = TimerMode.paused;
-                });
-              },
-              child: TimerButton(buttonTitle: 'PAUSE'),
+              onPressed: _pause, // <— call the pause method
+              style: ElevatedButton.styleFrom(minimumSize: const Size(140, 48)),
+              child: const Text('PAUSE'),
             ),
-
+            const SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  timerState = TimerMode.stopped;
-                });
-              },
-              child: TimerButton(buttonTitle: 'STOP'),
+              onPressed: _stop, // <— call the stop method
+              style: ElevatedButton.styleFrom(minimumSize: const Size(140, 48)),
+              child: const Text('STOP'),
             ),
           ],
         );
       } else {
+        // timerState == TimerMode.paused
+        // Two buttons: Resume and End (End = Stop)
         return Row(
-          spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  timerState = TimerMode.running;
-                });
-              },
-              child: TimerButton(buttonTitle: 'RESUME'),
+              onPressed: _resume, // <— call the resume method
+              style: ElevatedButton.styleFrom(minimumSize: const Size(140, 48)),
+              child: const Text('RESUME'),
             ),
-
+            const SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  timerState = TimerMode.stopped;
-                });
-              },
-              child: TimerButton(buttonTitle: 'END'),
+              onPressed: _stop, // <— same stop method
+              style: ElevatedButton.styleFrom(minimumSize: const Size(140, 48)),
+              child: const Text('END'),
             ),
           ],
         );
