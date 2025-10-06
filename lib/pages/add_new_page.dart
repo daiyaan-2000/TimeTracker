@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
+import 'dart:async';
 
 enum TimerMode { stopped, running, paused }
 
@@ -12,6 +13,65 @@ class AddNew extends StatefulWidget {
 
 class _AddNewState extends State<AddNew> {
   TimerMode timerState = TimerMode.stopped;
+
+  //STOPWATCH DEClARATIONS
+  Duration _elapsed = Duration.zero;
+  Timer? _ticker;
+
+  String get _mmss {
+    final m = _elapsed.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = _elapsed.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$m:$s';
+  }
+
+  //PAUSE PLAY START FEATURES
+  void _start() {
+    _elapsed = Duration.zero;
+
+    setState(() => timerState = TimerMode.running);
+
+    //If a timer was already running, stop it first (prevents duplicates).
+    _ticker?.cancel();
+
+    // Make a new "ticker" that fires every second.
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      // Each tick: add 1 second and redraw the UI (so the text updates).
+      setState(() {
+        _elapsed += const Duration(seconds: 1);
+      });
+    });
+  }
+
+  void _pause() {
+    // Stop the ticker (time stops increasing)…
+    _ticker?.cancel();
+    // …but keep the elapsed time. We just change the mode.
+    setState(() => timerState = TimerMode.paused);
+  }
+
+  void _resume() {
+    // Same as start, but notice: we do NOT reset _elapsed.
+    setState(() => timerState = TimerMode.running);
+
+    _ticker?.cancel();
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        _elapsed += const Duration(seconds: 1);
+      });
+    });
+  }
+
+  void _stop() {
+    // Stop ticking…
+    _ticker?.cancel();
+    // …and reset everything to the initial state.
+    setState(() {
+      timerState = TimerMode.stopped;
+      _elapsed = Duration.zero; // back to 00:00
+    });
+  }
+
+  //UI DESIGN PART
   @override
   Widget build(BuildContext context) {
     Widget TimerControls() {
@@ -135,8 +195,12 @@ class _AddNewState extends State<AddNew> {
               */
             ),
             child: Text(
-              'Timer is ${timerState.name}',
-              style: const TextStyle(color: Colors.black, fontSize: 16),
+              _mmss,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 40,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           SizedBox(height: 80),
