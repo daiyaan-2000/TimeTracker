@@ -3,7 +3,9 @@ import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:async';
 
 class AddNew extends StatefulWidget {
-  const AddNew({super.key});
+  const AddNew({super.key, required this.onSave});
+
+  final Function(Map<String, dynamic>) onSave;
 
   @override
   State<AddNew> createState() => _AddNewState();
@@ -86,10 +88,12 @@ class _AddNewState extends State<AddNew> {
                         minutes, // keep for your percent circle later
                   };
 
+                  widget.onSave(newTask);
+
                   // 3️⃣ show a message for now
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Saved task: $title ($minutes min)'),
+                      content: Text('Task added: $title ($minutes min)'),
                     ),
                   );
                 },

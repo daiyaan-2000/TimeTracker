@@ -39,7 +39,14 @@ class BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
       DashboardPage(tasks: tasks),
-      AddNew(),
+      AddNew(
+        onSave: (Map<String, dynamic> newTask) {
+          setState(() {
+            tasks.insert(0, newTask); // add to shared list
+            selectedIndex = 0; // jump back to Dashboard tab
+          });
+        },
+      ),
       ReportPage(),
       //ProfilePage(),
     ];
