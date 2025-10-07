@@ -14,15 +14,36 @@ class BottomNavBar extends StatefulWidget {
 class BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
 
-  final List<Widget> tabs = [
-    DashboardPage(),
-    AddNew(),
-    ReportPage(),
-    //ProfilePage(),
+  List<Map<String, dynamic>> tasks = [
+    {
+      'iconInfo': 'assets/icons/monitor.png',
+      'title': 'Flutter Project',
+      'timer': '45:15',
+      'details': ['Work', 'UI Design'],
+    },
+    {
+      'iconInfo': Icons.language,
+      'title': 'Dart Language Training',
+      'timer': '60:00',
+      'details': ['Loops', 'Conditionals', 'Widgets'],
+    },
+    {
+      'iconInfo': Icons.sports_soccer,
+      'title': 'Footy Practice',
+      'timer': '20:05',
+      'details': ['Drills', 'Matches'],
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> tabs = [
+      DashboardPage(tasks: tasks),
+      AddNew(),
+      ReportPage(),
+      //ProfilePage(),
+    ];
+
     return Scaffold(
       body: tabs[selectedIndex],
       bottomNavigationBar: Container(

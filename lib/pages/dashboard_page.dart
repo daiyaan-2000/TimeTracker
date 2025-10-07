@@ -6,39 +6,16 @@ import 'dart:math' as math;
 import 'package:time_tracker/widgets/current_timer.dart';
 import 'package:time_tracker/widgets/task_cards.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key, required this.tasks});
 
-  @override
-  State<DashboardPage> createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
-  List<Map<String, dynamic>> tasks = [
-    {
-      'iconInfo': 'assets/icons/monitor.png',
-      'title': 'Flutter Project',
-      'timer': '45:15',
-      'details': ['Work', 'UI Design'],
-    },
-    {
-      'iconInfo': Icons.language,
-      'title': 'Dart Language Training',
-      'timer': '60:00',
-      'details': ['Loops', 'Conditionals', 'Widgets'],
-    },
-    {
-      'iconInfo': Icons.sports_soccer,
-      'title': 'Footy Practice',
-      'timer': '20:05',
-      'details': ['Drills', 'Matches'],
-    },
-  ];
+  final List<Map<String, dynamic>> tasks;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+
       /*
       drawer: Drawer(
         backgroundColor: const Color.fromARGB(255, 224, 213, 252),
