@@ -11,12 +11,14 @@ class TaskCards extends StatelessWidget {
     required this.title,
     required this.timer,
     this.details = const [],
+    required this.minutes,
   });
 
   final iconInfo;
   final String title;
   final String timer;
   final List<String> details;
+  final int minutes;
   final Color randomColor = Color(
     (math.Random().nextDouble() * 0xFFFFFF).toInt(),
   );
@@ -31,8 +33,12 @@ class TaskCards extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) =>
-                  TimerDetailPage(title: title, timer: timer, details: details),
+              builder: (_) => TimerDetailPage(
+                title: title,
+                timer: timer,
+                details: details,
+                totalTaskMinutes: minutes,
+              ),
             ),
           );
         },

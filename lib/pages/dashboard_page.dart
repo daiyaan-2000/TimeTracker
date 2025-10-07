@@ -75,6 +75,7 @@ class DashboardPage extends StatelessWidget {
                   title: task['title'],
                   timer: task['timer'],
                   details: List<String>.from(task['details']),
+                  minutes: task['minutes'],
                 );
               }).toList(),
             ),

@@ -14,36 +14,39 @@ class BottomNavBar extends StatefulWidget {
 class BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
 
-  List<Map<String, dynamic>> tasks = [
+  List<Map<String, dynamic>> currentTaskCards = [
     {
       'iconInfo': 'assets/icons/monitor.png',
       'title': 'Flutter Project',
       'timer': '45:15',
       'details': ['Work', 'UI Design'],
+      'minutes': 60,
     },
     {
       'iconInfo': Icons.language,
       'title': 'Dart Language Training',
       'timer': '60:00',
       'details': ['Loops', 'Conditionals', 'Widgets'],
+      'minutes': 60,
     },
     {
       'iconInfo': Icons.sports_soccer,
       'title': 'Footy Practice',
       'timer': '20:05',
       'details': ['Drills', 'Matches'],
+      'minutes': 60,
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
-      DashboardPage(tasks: tasks),
+      DashboardPage(tasks: currentTaskCards),
       AddNew(
         onSave: (Map<String, dynamic> newTask) {
           setState(() {
-            tasks.insert(0, newTask); // add to shared list
-            selectedIndex = 0; // jump back to Dashboard tab
+            currentTaskCards.insert(0, newTask);
+            selectedIndex = 0;
           });
         },
       ),

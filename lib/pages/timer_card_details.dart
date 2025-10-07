@@ -7,6 +7,7 @@ class TimerDetailPage extends StatelessWidget {
   final String title;
   final String timer;
   final List details;
+  final int totalTaskMinutes;
   final Color randomColor = Color(
     (math.Random().nextDouble() * 0xFFFFFF).toInt(),
   );
@@ -16,6 +17,7 @@ class TimerDetailPage extends StatelessWidget {
     required this.title,
     required this.timer,
     required this.details,
+    required this.totalTaskMinutes,
   });
 
   @override
@@ -25,7 +27,7 @@ class TimerDetailPage extends StatelessWidget {
     int seconds = int.parse(parts[1]);
 
     double num = (seconds / 60);
-    double percentage = (minutes + num) / 100;
+    double percentage = (minutes + num) / totalTaskMinutes;
 
     return Scaffold(
       appBar: AppBar(

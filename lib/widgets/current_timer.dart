@@ -13,8 +13,12 @@ class CurrentTimer extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) =>
-                TimerDetailPage(title: title, timer: timer, details: []),
+            builder: (_) => TimerDetailPage(
+              title: title,
+              timer: timer,
+              details: [],
+              totalTaskMinutes: 100,
+            ),
           ),
         );
       },

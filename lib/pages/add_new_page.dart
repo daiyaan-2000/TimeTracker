@@ -79,13 +79,11 @@ class _AddNewState extends State<AddNew> {
                   final minutes = int.parse(_minutesCtrl.text);
 
                   final newTask = {
-                    'iconInfo':
-                        'assets/icons/monitor.png', // placeholder icon for now
+                    'iconInfo': 'assets/icons/monitor.png', //TEMPORARY
                     'title': title,
-                    'timer': '00:00', // start from zero; you can update later
-                    'details': details, // list of tags from the comma field
-                    'totalMinutes':
-                        minutes, // keep for your percent circle later
+                    'timer': '00:00',
+                    'details': details,
+                    'minutes': minutes,
                   };
 
                   widget.onSave(newTask);
