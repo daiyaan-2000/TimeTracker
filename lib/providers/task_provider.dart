@@ -9,7 +9,7 @@ class TasksController extends StateNotifier<List<Task>> {
   static List<Task> _seedTasks() => [
     Task(
       id: 't1',
-      title: 'Flutter Project',
+      title: 'Riverpod Project',
       details: ['Work', 'UI Design'],
       iconInfo: 'assets/icons/monitor.png',
       totalMinutes: 60,
@@ -32,11 +32,11 @@ class TasksController extends StateNotifier<List<Task>> {
       timerText: '20:05',
     ),
   ];
-
+  //ADDDDD
   void addTask({
     required String title,
     required List<String> details,
-    required int minutes,
+    required int totalMinutes,
     dynamic iconInfo,
   }) {
     final newTask = Task(
@@ -44,7 +44,7 @@ class TasksController extends StateNotifier<List<Task>> {
       title: title,
       details: details,
       iconInfo: iconInfo ?? 'assets/icons/monitor.png',
-      totalMinutes: minutes,
+      totalMinutes: totalMinutes,
       timerText: '00:00',
     );
     state = [newTask, ...state];

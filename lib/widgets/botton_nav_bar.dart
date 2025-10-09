@@ -41,7 +41,7 @@ class BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> tabs = [
-      DashboardPage(tasks: currentTaskCards),
+      DashboardPage(),
       AddNew(
         onSave: (Map<String, dynamic> newTask) {
           setState(() {

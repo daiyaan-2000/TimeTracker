@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 //import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:math' as math;
-
 import 'package:time_tracker/widgets/current_timer.dart';
 import 'package:time_tracker/widgets/task_cards.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/task_provider.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key, required this.tasks});
+class DashboardPage extends ConsumerWidget {
+  const DashboardPage({super.key});
 
-  final List<Map<String, dynamic>> tasks;
+  //final List<Map<String, dynamic>> tasks;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final taskList = ref.watch(tasksProvider);
     return Scaffold(
       appBar: AppBar(),
 
@@ -69,13 +71,13 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 16),
 
             Column(
-              children: tasks.map((task) {
+              children: taskList.map((task) {
                 return TaskCards(
-                  iconInfo: task['iconInfo'],
-                  title: task['title'],
-                  timer: task['timer'],
-                  details: List<String>.from(task['details']),
-                  minutes: task['minutes'],
+                  iconInfo: task.iconInfo,
+                  title: task.title,
+                  timer: task.timerText,
+                  details: task.details,
+                  minutes: task.totalMinutes,
                 );
               }).toList(),
             ),

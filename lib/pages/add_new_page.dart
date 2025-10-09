@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:async';
 
-class AddNew extends StatefulWidget {
+class AddNew extends ConsumerStatefulWidget {
   const AddNew({super.key, required this.onSave});
 
   final Function(Map<String, dynamic>) onSave;
 
   @override
-  State<AddNew> createState() => _AddNewState();
+  ConsumerState<AddNew> createState() => _AddNewState();
 }
 
-class _AddNewState extends State<AddNew> {
+class _AddNewState extends ConsumerState<AddNew> {
   final _formKey = GlobalKey<FormState>();
   final _titleCtrl = TextEditingController();
   final _detailsCtrl = TextEditingController();
   final _minutesCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final taskList = ref.read(tasksProvider.notifier);
     return Scaffold(
       appBar: AppBar(title: const Text('Add New Task'), centerTitle: true),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
@@ -78,6 +81,8 @@ class _AddNewState extends State<AddNew> {
                       .toList();
                   final minutes = int.parse(_minutesCtrl.text);
 
+                  /*
+
                   final newTask = {
                     'iconInfo': 'assets/icons/monitor.png', //TEMPORARY
                     'title': title,
@@ -86,9 +91,15 @@ class _AddNewState extends State<AddNew> {
                     'minutes': minutes,
                   };
 
-                  widget.onSave(newTask);
+                  */
 
-                  // 3️⃣ show a message for now
+                  taskList.addTask(
+                    title: title,
+                    details: details,
+                    totalMinutes: minutes,
+                  );
+                  //widget.onSave(newTask);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Task added: $title ($minutes min)'),
