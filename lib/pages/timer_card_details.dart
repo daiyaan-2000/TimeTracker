@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:time_tracker/widgets/task_descriptions.dart';
 import 'dart:math' as math;
+import 'dart:async';
 
-class TimerDetailPage extends StatelessWidget {
+enum TimerMode { stopped, running, paused }
+
+class TimerDetailPage extends StatefulWidget {
   final String title;
   final String timer;
   final List details;
   final int totalTaskMinutes;
-  final Color randomColor = Color(
-    (math.Random().nextDouble() * 0xFFFFFF).toInt(),
-  );
 
   TimerDetailPage({
     super.key,
@@ -21,19 +21,91 @@ class TimerDetailPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    List<String> parts = timer.split(":"); // ["32", "15"]
-    int minutes = int.parse(parts[0]);
-    int seconds = int.parse(parts[1]);
+  State<TimerDetailPage> createState() => _TimerDetailPageState();
+}
 
-    double num = (seconds / 60);
-    double percentage = (minutes + num) / totalTaskMinutes;
+class _TimerDetailPageState extends State<TimerDetailPage> {
+  final Color randomColor = Color(
+    (math.Random().nextDouble() * 0xFFFFFF).toInt(),
+  );
+
+  static Duration elapsed = Duration.zero;
+  static Timer? ticker;
+  TimerMode timerState = TimerMode.stopped;
+
+  String get _mmss {
+    final m = elapsed.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = elapsed.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$m:$s';
+  }
+
+  //PAUSE PLAY START FEATURES
+  void _start() {
+    setState(() => timerState = TimerMode.running);
+
+    ticker?.cancel();
+
+    //ticker ticks every second
+    ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        elapsed += const Duration(seconds: 1); //Adds one second each tick
+      });
+    });
+  }
+
+  void _pause() {
+    ticker?.cancel();
+
+    setState(() => timerState = TimerMode.paused);
+  }
+
+  void _resume() {
+    //Like start except the resetting
+    setState(() => timerState = TimerMode.running);
+
+    ticker?.cancel();
+    ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        elapsed += const Duration(seconds: 1);
+      });
+    });
+  }
+
+  void _stop() {
+    ticker?.cancel();
+    setState(() {
+      timerState = TimerMode.stopped;
+    });
+
+    // Send back the new task info when stopping
+    Navigator.pop(context, {});
+  }
+
+  @override
+  void dispose() {
+    ticker?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> parts = widget.timer.split(":"); // ["32", "15"]
+
+    final split = _mmss.split(':'); // ['03', '45']
+    final mins = int.tryParse(split[0]) ?? 0;
+    final secs = int.tryParse(split[1]) ?? 0;
+
+    final totalSeconds = (mins * 60) + secs;
+    final percent = (totalSeconds / (widget.totalTaskMinutes * 60)).clamp(
+      0.0,
+      1.0,
+    );
 
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(
-            title,
+            widget.title,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
           ),
         ),
@@ -41,9 +113,9 @@ class TimerDetailPage extends StatelessWidget {
           Row(
             spacing: 6,
             children: [
-              if (details.isNotEmpty)
+              if (widget.details.isNotEmpty)
                 TaskDescriptions(
-                  label: details.first,
+                  label: widget.details.first,
                   color: Colors.deepPurpleAccent,
                 ),
               SizedBox(width: 16),
@@ -65,7 +137,7 @@ class TimerDetailPage extends StatelessWidget {
                 ),
                 SizedBox(width: 12),
                 Text(
-                  title,
+                  widget.title,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -85,11 +157,11 @@ class TimerDetailPage extends StatelessWidget {
               radius: 110,
               //progressColor: Colors.deepPurpleAccent,
               backgroundColor: const Color.fromARGB(255, 225, 224, 224),
-              percent: percentage,
+              percent: percent,
               lineWidth: 20,
-              animation: true,
+              //animation: true,
               center: Text(
-                timer,
+                _mmss,
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
               ),
             ),
@@ -101,18 +173,25 @@ class TimerDetailPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Color.fromRGBO(233, 233, 255, 100),
-                      radius: 32,
-                      child: Icon(
-                        Icons.play_arrow,
-                        size: 32,
-                        color: Colors.grey,
+                    ElevatedButton(
+                      onPressed: _start,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(32, 32),
+                        shape: CircleBorder(),
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: Color.fromRGBO(233, 233, 255, 100),
+                        radius: 32,
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 32,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Resume',
+                      'Start',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -123,10 +202,17 @@ class TimerDetailPage extends StatelessWidget {
 
                 Column(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Color.fromRGBO(233, 233, 255, 100),
-                      radius: 32,
-                      child: Icon(Icons.stop, size: 32, color: Colors.grey),
+                    ElevatedButton(
+                      onPressed: _pause,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(32, 32),
+                        shape: CircleBorder(),
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: Color.fromRGBO(233, 233, 255, 100),
+                        radius: 32,
+                        child: Icon(Icons.stop, size: 32, color: Colors.grey),
+                      ),
                     ),
                     SizedBox(height: 4),
                     Text(
