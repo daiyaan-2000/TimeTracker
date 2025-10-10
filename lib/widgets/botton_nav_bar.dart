@@ -3,17 +3,17 @@ import 'package:time_tracker/pages/add_new_page.dart';
 import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/report_page.dart';
 import 'package:time_tracker/pages/profile.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/bottomNavState_provider.dart';
 
-class BottomNavBar extends StatefulWidget {
+class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => BottomNavBarState();
+  ConsumerState<BottomNavBar> createState() => BottomNavBarState();
 }
 
-class BottomNavBarState extends State<BottomNavBar> {
-  int selectedIndex = 0;
-
+class BottomNavBarState extends ConsumerState<BottomNavBar> {
   List<Map<String, dynamic>> currentTaskCards = [
     {
       'iconInfo': 'assets/icons/monitor.png',
@@ -40,16 +40,10 @@ class BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(selectedTabProvider);
     final List<Widget> tabs = [
       DashboardPage(),
-      AddNew(
-        onSave: (Map<String, dynamic> newTask) {
-          setState(() {
-            currentTaskCards.insert(0, newTask);
-            selectedIndex = 0;
-          });
-        },
-      ),
+      AddNew(),
       ReportPage(),
       //ProfilePage(),
     ];
@@ -74,7 +68,7 @@ class BottomNavBarState extends State<BottomNavBar> {
 
           onTap: (index) {
             setState(() {
-              selectedIndex = index;
+              ref.read(selectedTabProvider.notifier).state = index;
             });
           },
 

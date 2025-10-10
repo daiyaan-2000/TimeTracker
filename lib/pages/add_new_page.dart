@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/bottomNavState_provider.dart';
 import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:async';
 
 class AddNew extends ConsumerStatefulWidget {
-  const AddNew({super.key, required this.onSave});
+  const AddNew({super.key});
 
-  final Function(Map<String, dynamic>) onSave;
+  //final Function(Map<String, dynamic>) onSave;
 
   @override
   ConsumerState<AddNew> createState() => _AddNewState();
@@ -98,6 +99,8 @@ class _AddNewState extends ConsumerState<AddNew> {
                     details: details,
                     totalMinutes: minutes,
                   );
+
+                  ref.read(selectedTabProvider.notifier).state = 0;
                   //widget.onSave(newTask);
 
                   ScaffoldMessenger.of(context).showSnackBar(
