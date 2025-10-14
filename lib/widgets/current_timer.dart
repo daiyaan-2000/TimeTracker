@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
+import 'package:time_tracker/providers/task_provider.dart';
 
-class CurrentTimer extends StatelessWidget {
-  const CurrentTimer({super.key, required this.timer, required this.title});
+class CurrentTimer extends ConsumerWidget {
+  const CurrentTimer({super.key, required this.taskId});
 
-  final String timer;
-  final String title;
+  //final String timer;
+  //final String title;
+
+  final String taskId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tasks = ref.watch(tasksProvider);
+
+    final task = tasks.firstWhere(
+      (t) => t.id == taskId,
+      orElse: () => throw Exception('Task not found: $taskId'),
+    );
+
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => TimerDetailPage(
-              title: title,
-              timer: timer,
-              details: [],
-              totalTaskMinutes: 100,
-            ),
-          ),
+          MaterialPageRoute(builder: (_) => TimerDetailPage(taskId: taskId)),
         );
       },
       child: Container(
@@ -45,7 +49,7 @@ class CurrentTimer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  timer,
+                  task.timerText,
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w500,
@@ -64,7 +68,7 @@ class CurrentTimer extends StatelessWidget {
                 ),
                 SizedBox(width: 12),
                 Text(
-                  title,
+                  task.title,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ],

@@ -53,7 +53,7 @@ class DashboardPage extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 24),
-            CurrentTimer(timer: '50:45', title: 'TimePad Project'),
+            CurrentTimer(taskId: 't1'),
             SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,6 +73,7 @@ class DashboardPage extends ConsumerWidget {
             Column(
               children: taskList.map((task) {
                 return TaskCards(
+                  taskId: task.id,
                   iconInfo: task.iconInfo,
                   title: task.title,
                   timer: task.timerText,

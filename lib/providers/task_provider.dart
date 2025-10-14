@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tasks.dart';
+import 'dart:async';
 
 class TasksController extends StateNotifier<List<Task>> {
   TasksController() : super(_seedTasks());
@@ -13,7 +14,8 @@ class TasksController extends StateNotifier<List<Task>> {
       details: ['Work', 'UI Design'],
       iconInfo: 'assets/icons/monitor.png',
       totalMinutes: 60,
-      timerText: '45:15',
+      elapsedSeconds: 0,
+      mode: TimerMode.stopped,
     ),
     Task(
       id: 't2',
@@ -21,7 +23,8 @@ class TasksController extends StateNotifier<List<Task>> {
       details: ['Loops', 'Conditionals', 'Widgets'],
       iconInfo: Icons.language,
       totalMinutes: 60,
-      timerText: '60:00',
+      elapsedSeconds: 0,
+      mode: TimerMode.stopped,
     ),
     Task(
       id: 't3',
@@ -29,9 +32,23 @@ class TasksController extends StateNotifier<List<Task>> {
       details: ['Drills', 'Matches'],
       iconInfo: Icons.sports_soccer,
       totalMinutes: 60,
-      timerText: '20:05',
+      elapsedSeconds: 0,
+      mode: TimerMode.stopped,
     ),
   ];
+
+  final Map<String, Timer> _tickers = {};
+
+  int _indexOf(String taskId) => state.indexWhere((t) => t.id == taskId);
+
+  void _updateTask(String taskId, Task Function(Task) mutate) {
+    final i = _indexOf(taskId);
+    if (i == -1) return;
+    final updated = mutate(state[i]);
+
+    state = [...state.sublist(0, i), updated, ...state.sublist(i + 1)];
+  }
+
   //ADDDDD
   void addTask({
     required String title,
@@ -45,9 +62,72 @@ class TasksController extends StateNotifier<List<Task>> {
       details: details,
       iconInfo: iconInfo ?? 'assets/icons/monitor.png',
       totalMinutes: totalMinutes,
-      timerText: '00:00',
+      elapsedSeconds: 0,
+      mode: TimerMode.stopped,
     );
     state = [newTask, ...state];
+  }
+
+  //TIMER CONTROLSS
+  void start(String taskId) {
+    if (_tickers[taskId] != null) {
+      _tickers[taskId]!.cancel();
+    }
+
+    _updateTask(taskId, (t) {
+      return t.copyWith(mode: TimerMode.running);
+    });
+
+    _tickers[taskId] = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _updateTask(taskId, (t) {
+        return t.copyWith(elapsedSeconds: t.elapsedSeconds + 1);
+      });
+    });
+  }
+
+  void pause(String taskId) {
+    if (_tickers[taskId] != null) {
+      _tickers[taskId]!.cancel();
+    }
+    _tickers.remove(taskId);
+    _updateTask(taskId, (t) {
+      return t.copyWith(mode: TimerMode.paused);
+    });
+  }
+
+  void stop(String taskId, {bool reset = false}) {
+    // 1) Stop the periodic ticker (if any) for this task
+    if (_tickers[taskId] != null) {
+      _tickers[taskId]!.cancel();
+    }
+
+    // 2) Remove it from the map
+    _tickers.remove(taskId);
+
+    // 3) Set mode to stopped, and optionally reset elapsed time to 0
+    _updateTask(taskId, (t) {
+      int newElapsedSeconds;
+
+      if (reset) {
+        newElapsedSeconds = 0; // restart from zero
+      } else {
+        newElapsedSeconds = t.elapsedSeconds; // keep current time
+      }
+
+      return t.copyWith(
+        mode: TimerMode.stopped,
+        elapsedSeconds: newElapsedSeconds,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    for (final timer in _tickers.values) {
+      timer.cancel();
+    }
+    _tickers.clear();
+    super.dispose();
   }
 }
 

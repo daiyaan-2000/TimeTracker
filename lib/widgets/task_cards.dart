@@ -7,6 +7,7 @@ import 'package:time_tracker/widgets/task_descriptions.dart';
 class TaskCards extends StatelessWidget {
   TaskCards({
     super.key,
+    required this.taskId,
     required this.iconInfo,
     required this.title,
     required this.timer,
@@ -14,6 +15,7 @@ class TaskCards extends StatelessWidget {
     required this.minutes,
   });
 
+  final String taskId;
   final iconInfo;
   final String title;
   final String timer;
@@ -32,14 +34,7 @@ class TaskCards extends StatelessWidget {
         //borderRadius: BorderRadius.circular(20),
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => TimerDetailPage(
-                title: title,
-                timer: timer,
-                details: details,
-                totalTaskMinutes: minutes,
-              ),
-            ),
+            MaterialPageRoute(builder: (_) => TimerDetailPage(taskId: taskId)),
           );
         },
 
