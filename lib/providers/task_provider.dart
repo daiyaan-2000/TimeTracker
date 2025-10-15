@@ -96,22 +96,19 @@ class TasksController extends StateNotifier<List<Task>> {
   }
 
   void stop(String taskId, {bool reset = false}) {
-    // 1) Stop the periodic ticker (if any) for this task
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
 
-    // 2) Remove it from the map
     _tickers.remove(taskId);
 
-    // 3) Set mode to stopped, and optionally reset elapsed time to 0
     _updateTask(taskId, (t) {
       int newElapsedSeconds;
 
       if (reset) {
-        newElapsedSeconds = 0; // restart from zero
+        newElapsedSeconds = 0;
       } else {
-        newElapsedSeconds = t.elapsedSeconds; // keep current time
+        newElapsedSeconds = t.elapsedSeconds;
       }
 
       return t.copyWith(

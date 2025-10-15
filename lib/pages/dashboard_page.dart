@@ -72,14 +72,7 @@ class DashboardPage extends ConsumerWidget {
 
             Column(
               children: taskList.map((task) {
-                return TaskCards(
-                  taskId: task.id,
-                  iconInfo: task.iconInfo,
-                  title: task.title,
-                  timer: task.timerText,
-                  details: task.details,
-                  minutes: task.totalMinutes,
-                );
+                return TaskCards(taskId: task.id);
               }).toList(),
             ),
           ],

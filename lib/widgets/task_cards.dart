@@ -1,33 +1,35 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
+import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/task_descriptions.dart';
+import 'package:time_tracker/providers/tasks.dart';
 
-class TaskCards extends StatelessWidget {
-  TaskCards({
-    super.key,
-    required this.taskId,
-    required this.iconInfo,
-    required this.title,
-    required this.timer,
-    this.details = const [],
-    required this.minutes,
-  });
+class TaskCards extends ConsumerWidget {
+  TaskCards({super.key, required this.taskId});
 
   final String taskId;
-  final iconInfo;
-  final String title;
-  final String timer;
-  final List<String> details;
-  final int minutes;
-  final Color randomColor = Color(
-    (math.Random().nextDouble() * 0xFFFFFF).toInt(),
-  );
+
+  Color colorFromId(String id) {
+    final int hash = id.hashCode & 0x00FFFFFF;
+    return Color(0xFF000000 | hash);
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     //final String iconFile = 'assets/icons/$iconInfo';
+    final task = ref.watch(
+      tasksProvider.select((list) {
+        return list.firstWhere((t) => t.id == taskId);
+      }),
+    );
+
+    final Color stableColor = colorFromId(task.id);
+
+    final timerText = task.timerText;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -69,12 +71,12 @@ class TaskCards extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
-                      backgroundColor: randomColor.withOpacity(1.0),
+                      backgroundColor: stableColor,
                       radius: 22,
-                      child: iconInfo.runtimeType == IconData
-                          ? Icon(iconInfo, color: Colors.white)
+                      child: task.iconInfo.runtimeType == IconData
+                          ? Icon(task.iconInfo, color: Colors.white)
                           : ImageIcon(
-                              AssetImage(iconInfo),
+                              AssetImage(task.iconInfo),
                               color: Colors.white,
                             ),
                     ),
@@ -86,7 +88,7 @@ class TaskCards extends StatelessWidget {
                         spacing: 8,
                         children: [
                           Text(
-                            title,
+                            task.title,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
@@ -97,8 +99,8 @@ class TaskCards extends StatelessWidget {
                             spacing: 8,
                             runSpacing: 4,
                             children: [
-                              for (var i in details)
-                                TaskDescriptions(label: i, color: randomColor),
+                              for (var i in task.details)
+                                TaskDescriptions(label: i, color: stableColor),
                             ],
                           ),
                         ],
@@ -114,19 +116,9 @@ class TaskCards extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      timer,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    TimerText(taskId: taskId),
                     SizedBox(height: 8),
-                    Icon(
-                      Icons.play_arrow_rounded,
-                      size: 32,
-                      color: Colors.grey,
-                    ),
+                    PlayPauseButton(taskId: taskId),
                   ],
                 ),
               ),
@@ -134,6 +126,80 @@ class TaskCards extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TimerText extends ConsumerWidget {
+  const TimerText({super.key, required this.taskId});
+  final String taskId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String timerText = ref.watch(
+      tasksProvider.select((tasks) {
+        final task = tasks.firstWhere((t) => t.id == taskId);
+        return task.timerText;
+      }),
+    );
+
+    return Text(
+      timerText,
+      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+    );
+  }
+}
+
+class PlayPauseButton extends ConsumerWidget {
+  const PlayPauseButton({super.key, required this.taskId});
+  final String taskId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TimerMode mode = ref.watch(
+      tasksProvider.select((tasks) {
+        final task = tasks.firstWhere((t) => t.id == taskId);
+        return task.mode;
+      }),
+    );
+
+    final TasksController controller = ref.read(tasksProvider.notifier);
+
+    IconData icon;
+
+    VoidCallback onPressed;
+
+    if (mode == TimerMode.running) {
+      icon = Icons.pause;
+
+      onPressed = () {
+        controller.pause(taskId);
+      };
+    } else if (mode == TimerMode.paused) {
+      icon = Icons.play_arrow;
+
+      onPressed = () {
+        controller.start(taskId);
+      };
+    } else {
+      // stopped
+      icon = Icons.play_arrow;
+
+      onPressed = () {
+        controller.start(taskId);
+      };
+    }
+
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        fixedSize: const Size(32, 32),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        minimumSize: const Size(5, 5),
+      ),
+      child: Icon(icon, size: 32, color: Colors.grey),
     );
   }
 }
