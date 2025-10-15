@@ -53,7 +53,7 @@ class DashboardPage extends ConsumerWidget {
               ],
             ),
             SizedBox(height: 24),
-            CurrentTimer(taskId: 't1'),
+            CurrentTimer(),
             SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
