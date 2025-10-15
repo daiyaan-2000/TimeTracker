@@ -68,6 +68,11 @@ class TasksController extends StateNotifier<List<Task>> {
     state = [newTask, ...state];
   }
 
+  void changeOrder({required Task latestTask}) {
+    state = state.where((task) => task.id != latestTask.id).toList();
+    state = [latestTask, ...state];
+  }
+
   //TIMER CONTROLSS
   void start(String taskId) {
     _stopOthers(taskId);
@@ -78,6 +83,9 @@ class TasksController extends StateNotifier<List<Task>> {
     _updateTask(taskId, (t) {
       return t.copyWith(mode: TimerMode.running);
     });
+
+    final currentTask = state.firstWhere((t) => t.id == taskId);
+    changeOrder(latestTask: currentTask);
 
     //Stopping after reaching target time
     _tickers[taskId] = Timer.periodic(const Duration(seconds: 1), (timer) {

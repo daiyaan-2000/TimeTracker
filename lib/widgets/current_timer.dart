@@ -2,28 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/providers/task_provider.dart';
+import 'package:time_tracker/providers/tasks.dart';
 
 class CurrentTimer extends ConsumerWidget {
-  const CurrentTimer({super.key, required this.taskId});
+  const CurrentTimer({super.key});
 
   //final String timer;
   //final String title;
-
-  final String taskId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(tasksProvider);
 
+    final runningTask = tasks.where((t) => t.mode == TimerMode.running);
+
+    /*
     final task = tasks.firstWhere(
       (t) => t.id == taskId,
       orElse: () => throw Exception('Task not found: $taskId'),
     );
+    */
+
+    late final Task task;
+    if (runningTask.isNotEmpty) {
+      task = runningTask.first;
+    } else {
+      task = tasks.first;
+    }
 
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => TimerDetailPage(taskId: taskId)),
+          MaterialPageRoute(builder: (_) => TimerDetailPage(taskId: task.id)),
         );
       },
       child: Container(
