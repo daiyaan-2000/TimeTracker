@@ -70,6 +70,7 @@ class TasksController extends StateNotifier<List<Task>> {
 
   //TIMER CONTROLSS
   void start(String taskId) {
+    _stopOthers(taskId);
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
@@ -78,8 +79,19 @@ class TasksController extends StateNotifier<List<Task>> {
       return t.copyWith(mode: TimerMode.running);
     });
 
+    //Stopping after reaching target time
     _tickers[taskId] = Timer.periodic(const Duration(seconds: 1), (timer) {
       _updateTask(taskId, (t) {
+        final int maxSeconds = t.totalMinutes * 60;
+        final int next = t.elapsedSeconds + 1;
+        if (next >= maxSeconds) {
+          timer.cancel();
+          _tickers.remove(taskId);
+          return t.copyWith(
+            elapsedSeconds: maxSeconds,
+            mode: TimerMode.stopped,
+          );
+        }
         return t.copyWith(elapsedSeconds: t.elapsedSeconds + 1);
       });
     });
@@ -125,6 +137,22 @@ class TasksController extends StateNotifier<List<Task>> {
     }
     _tickers.clear();
     super.dispose();
+  }
+
+  //Using this to stop other tasks from running when we press start on one
+  void _stopOthers(String playingTask) {
+    for (final task in state) {
+      if (task.id == playingTask) continue;
+      _tickers[task.id]?.cancel();
+      _tickers.remove(task.id);
+    }
+    state = state.map((t) {
+      if (t.id == playingTask) return t;
+      if (t.mode == TimerMode.running) {
+        return t.copyWith(mode: TimerMode.stopped);
+      }
+      return t;
+    }).toList();
   }
 }
 
