@@ -1,8 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tasks.dart';
 import 'dart:async';
+
+final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
+  return TasksController();
+});
 
 class TasksController extends StateNotifier<List<Task>> {
   TasksController() : super(_seedTasks());
@@ -163,7 +166,3 @@ class TasksController extends StateNotifier<List<Task>> {
     }).toList();
   }
 }
-
-final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
-  return TasksController();
-});

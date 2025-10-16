@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:time_tracker/widgets/task_descriptions.dart';
@@ -232,3 +233,5 @@ class _TimerDetailPageState extends State<TimerDetailPage> {
     );
   }
 }
+
+*/

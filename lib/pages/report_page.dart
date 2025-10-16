@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
 import 'dart:math' as math;
 
 import 'package:time_tracker/widgets/report_overviewBox.dart';
 
-class ReportPage extends StatelessWidget {
+class ReportPage extends ConsumerWidget {
   const ReportPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final taskList = ref.watch(tasksProvider);
+    double timeSum = 0;
+
+    for (final i in taskList) {
+      timeSum += i.elapsedSeconds;
+    }
+
+    int timeSumMinutes = timeSum ~/ 60;
+    int timeSumSeconds = (timeSum % 60).toInt();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -41,7 +53,7 @@ class ReportPage extends StatelessWidget {
                 OverViewBox(
                   iconInfo: 'assets/icons/stopwatch.png',
                   title: 'Time Duration',
-                  overviewDetails: '1h 45m',
+                  overviewDetails: '${timeSumMinutes}m ${timeSumSeconds}s',
                 ),
               ],
             ),
