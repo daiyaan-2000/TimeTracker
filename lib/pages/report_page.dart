@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
+import 'package:time_tracker/widgets/graphChart.dart';
+import 'package:time_tracker/widgets/reportChartStats.dart';
 import 'dart:math' as math;
 
 import 'package:time_tracker/widgets/report_overviewBox.dart';
@@ -107,11 +109,7 @@ class ReportPage extends ConsumerWidget {
                               horizontal: 16,
                             ),
 
-                            child: Icon(
-                              Icons.show_chart,
-                              size: 150,
-                              color: Colors.grey,
-                            ),
+                            child: Graphchart(),
                           ),
                           Container(
                             height: 500,
@@ -126,11 +124,7 @@ class ReportPage extends ConsumerWidget {
                               horizontal: 16,
                             ),
 
-                            child: Icon(
-                              Icons.show_chart,
-                              size: 150,
-                              color: Colors.deepPurpleAccent,
-                            ),
+                            child: Graphchart(),
                           ),
                         ],
                       ),

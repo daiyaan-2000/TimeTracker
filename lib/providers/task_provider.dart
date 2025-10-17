@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tasks.dart';
 import 'dart:async';
+import 'package:time_tracker/providers/graphStatsProvider.dart';
 
 final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
-  return TasksController();
+  return TasksController(ref);
 });
 
 class TasksController extends StateNotifier<List<Task>> {
-  TasksController() : super(_seedTasks());
+  TasksController(this.ref) : super(_seedTasks());
+
+  final Ref ref;
 
   static List<Task> _seedTasks() => [
     Task(
@@ -105,6 +108,11 @@ class TasksController extends StateNotifier<List<Task>> {
         }
         return t.copyWith(elapsedSeconds: t.elapsedSeconds + 1);
       });
+
+      final task = state.firstWhere((t) => t.id == taskId);
+      if (task.mode == TimerMode.running) {
+        ref.read(statsProvider.notifier).tickNow();
+      }
     });
   }
 
