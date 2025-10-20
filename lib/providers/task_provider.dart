@@ -3,15 +3,54 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tasks.dart';
 import 'dart:async';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
+import 'package:hive_ce/hive.dart';
+import 'hiveBoxProvider.dart';
 
 final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
-  return TasksController(ref);
+  final Box box = ref.read(hiveBoxProvider);
+  return TasksController(ref, box);
 });
 
 class TasksController extends StateNotifier<List<Task>> {
-  TasksController(this.ref) : super(_seedTasks());
+  TasksController(this.ref, this.box) : super(<Task>[]) {
+    Future.microtask(_loadFromHive);
+  }
 
   final Ref ref;
+  final Box box;
+
+  static const String _boxKey = 'tasks';
+
+  Future<void> _saveToHive() async {
+    final List<Map<String, dynamic>> payload = state
+        .map((t) => t.toMap())
+        .toList();
+    await box.put(_boxKey, payload);
+  }
+
+  Future<void> _loadFromHive() async {
+    final dynamic raw = box.get(_boxKey);
+
+    if (raw is List) {
+      try {
+        // Turn List<dynamic> -> List<Task>
+        final List<Task> loaded = raw.map((e) {
+          final map = Map<String, dynamic>.from(e as Map);
+          return Task.fromMap(map);
+        }).toList();
+
+        state = loaded;
+        return; // success
+      } catch (e) {
+        // If parsing fails, we’ll just fall back to seeding below.
+        // You might log e in a real app.
+      }
+    }
+
+    // Nothing saved yet (or bad data): use the seed once, then persist it
+    state = _seedTasks();
+    await _saveToHive();
+  }
 
   static List<Task> _seedTasks() => [
     Task(

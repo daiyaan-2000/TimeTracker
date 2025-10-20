@@ -53,4 +53,61 @@ class Task {
     final total = (totalMinutes * 60).clamp(1, 1 << 31); // avoid divide-by-zero
     return (elapsedSeconds / total).clamp(0, 1);
   }
+
+  //--------------------------
+  //Converting Task type to fit HiveBox
+  //--------------------------
+
+  //Turning Task into a plain Map for Hive storage
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'details': details, // List<String> stores fine
+      'iconInfo': iconInfo,
+      'totalMinutes': totalMinutes,
+      'elapsedSeconds': elapsedSeconds,
+      'mode': timerModeToString(mode),
+    };
+  }
+
+  //Builting Task back from Map in Hive storage
+  factory Task.fromMap(Map<String, dynamic> map) {
+    return Task(
+      id: map['id'] as String,
+      title: map['title'] as String,
+      details: List<String>.from(map['details'] as List),
+      iconInfo: map['iconInfo'],
+      totalMinutes: map['totalMinutes'] as int,
+      elapsedSeconds: (map['elapsedSeconds'] as num).toInt(),
+      mode: timerModeFromString(map['mode'] as String),
+    );
+  }
+}
+
+//--------------------------
+//Converting TimerMode to String and back for HiveBox
+//--------------------------
+
+String timerModeToString(TimerMode m) {
+  switch (m) {
+    case TimerMode.running:
+      return 'running';
+    case TimerMode.paused:
+      return 'paused';
+    case TimerMode.stopped:
+      return 'stopped';
+  }
+}
+
+TimerMode timerModeFromString(String s) {
+  switch (s) {
+    case 'running':
+      return TimerMode.running;
+    case 'paused':
+      return TimerMode.paused;
+    case 'stopped':
+    default:
+      return TimerMode.stopped;
+  }
 }
