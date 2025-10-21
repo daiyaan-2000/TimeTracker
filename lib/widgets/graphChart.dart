@@ -50,7 +50,7 @@ class Graphchart extends ConsumerWidget {
                 minX: 9,
                 maxX: 21,
                 minY: 0,
-                maxY: 60,
+                maxY: 2,
 
                 gridData: FlGridData(
                   show: false,

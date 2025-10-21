@@ -20,11 +20,19 @@ class TaskCards extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //final String iconFile = 'assets/icons/$iconInfo';
-    final task = ref.watch(
+    final Task? task = ref.watch(
       tasksProvider.select((list) {
-        return list.firstWhere((t) => t.id == taskId);
+        try {
+          return list.firstWhere((t) => t.id == taskId);
+        } catch (_) {
+          return null;
+        }
       }),
     );
+
+    if (task == null) {
+      return const SizedBox(height: 80);
+    }
 
     final Color stableColor = colorFromId(task.id);
 
@@ -138,8 +146,12 @@ class TimerText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String timerText = ref.watch(
       tasksProvider.select((tasks) {
-        final task = tasks.firstWhere((t) => t.id == taskId);
-        return task.timerText;
+        try {
+          final task = tasks.firstWhere((t) => t.id == taskId);
+          return task.timerText;
+        } catch (_) {
+          return '--:--';
+        }
       }),
     );
 
@@ -158,8 +170,12 @@ class PlayPauseButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TimerMode mode = ref.watch(
       tasksProvider.select((tasks) {
-        final task = tasks.firstWhere((t) => t.id == taskId);
-        return task.mode;
+        try {
+          final task = tasks.firstWhere((t) => t.id == taskId);
+          return task.mode;
+        } catch (_) {
+          return TimerMode.paused;
+        }
       }),
     );
 

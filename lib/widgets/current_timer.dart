@@ -14,6 +14,14 @@ class CurrentTimer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(tasksProvider);
 
+    if (tasks.isEmpty) {
+      // Hive is still loading. Show a small placeholder.
+      return const SizedBox(
+        height: 80,
+        child: Center(child: Text('Loading...')),
+      );
+    }
+
     final runningTask = tasks.where((t) => t.mode == TimerMode.running);
 
     /*

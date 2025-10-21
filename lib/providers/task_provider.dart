@@ -21,36 +21,54 @@ class TasksController extends StateNotifier<List<Task>> {
 
   static const String _boxKey = 'tasks';
 
+  //-------------------------------------------------------------------------------------------------------
+
   Future<void> _saveToHive() async {
-    final List<Map<String, dynamic>> payload = state
-        .map((t) => t.toMap())
-        .toList();
-    await box.put(_boxKey, payload);
+    final List<Map<String, dynamic>> list = <Map<String, dynamic>>[];
+    for (final i in state) {
+      list.add(i.toMap());
+    }
+    await box.put(_boxKey, list);
+
+    // DEBUG
+    final first = list.isNotEmpty ? list.first : null;
+
+    ;
   }
 
   Future<void> _loadFromHive() async {
     final dynamic raw = box.get(_boxKey);
 
-    if (raw is List) {
-      try {
-        // Turn List<dynamic> -> List<Task>
-        final List<Task> loaded = raw.map((e) {
-          final map = Map<String, dynamic>.from(e as Map);
-          return Task.fromMap(map);
-        }).toList();
+    if (raw == null) {
+      state = _seedTasks();
+      await _saveToHive();
+      return;
+    }
 
-        state = loaded;
-        return; // success
-      } catch (e) {
-        // If parsing fails, we’ll just fall back to seeding below.
-        // You might log e in a real app.
+    final List<Task> loaded = <Task>[];
+    if (raw is List) {
+      for (final item in raw) {
+        if (item is Map) {
+          final map = Map<String, dynamic>.from(item as Map);
+          loaded.add(Task.fromMap(map));
+        }
       }
     }
 
-    // Nothing saved yet (or bad data): use the seed once, then persist it
-    state = _seedTasks();
-    await _saveToHive();
+    if (loaded.isEmpty) {
+      print('[LOAD] parsed 0 items -> seed & save');
+      state = _seedTasks();
+      await _saveToHive();
+    } else {
+      print(
+        '[LOAD] loaded ${loaded.length} tasks. '
+        'First: id=${loaded.first.id} elapsed=${loaded.first.elapsedSeconds} mode=${loaded.first.mode}',
+      );
+      state = loaded;
+    }
   }
+
+  //-------------------------------------------------------------------------------------------------------
 
   static List<Task> _seedTasks() => [
     Task(
@@ -66,7 +84,7 @@ class TasksController extends StateNotifier<List<Task>> {
       id: 't2',
       title: 'Dart Language Training',
       details: ['Loops', 'Conditionals', 'Widgets'],
-      iconInfo: Icons.language,
+      iconInfo: 'assets/icons/monitor.png',
       totalMinutes: 60,
       elapsedSeconds: 0,
       mode: TimerMode.stopped,
@@ -75,7 +93,7 @@ class TasksController extends StateNotifier<List<Task>> {
       id: 't3',
       title: 'Footy Practice',
       details: ['Drills', 'Matches'],
-      iconInfo: Icons.sports_soccer,
+      iconInfo: 'assets/icons/monitor.png',
       totalMinutes: 60,
       elapsedSeconds: 0,
       mode: TimerMode.stopped,
@@ -95,12 +113,12 @@ class TasksController extends StateNotifier<List<Task>> {
   }
 
   //ADDDDD
-  void addTask({
+  Future<void> addTask({
     required String title,
     required List<String> details,
     required int totalMinutes,
     dynamic iconInfo,
-  }) {
+  }) async {
     final newTask = Task(
       id: 't${DateTime.now().millisecondsSinceEpoch}',
       title: title,
@@ -111,6 +129,7 @@ class TasksController extends StateNotifier<List<Task>> {
       mode: TimerMode.stopped,
     );
     state = [newTask, ...state];
+    await _saveToHive();
   }
 
   void changeOrder({required Task latestTask}) {
@@ -118,9 +137,10 @@ class TasksController extends StateNotifier<List<Task>> {
     state = [latestTask, ...state];
   }
 
+  //-------------------------------------------------------------------------------------------------------
   //TIMER CONTROLSS
-  void start(String taskId) {
-    _stopOthers(taskId);
+  Future<void> start(String taskId) async {
+    await _stopOthers(taskId);
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
@@ -163,9 +183,11 @@ class TasksController extends StateNotifier<List<Task>> {
     _updateTask(taskId, (t) {
       return t.copyWith(mode: TimerMode.paused);
     });
+
+    _saveToHive();
   }
 
-  void stop(String taskId, {bool reset = false}) {
+  Future<void> stop(String taskId, {bool reset = false}) async {
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
@@ -186,6 +208,8 @@ class TasksController extends StateNotifier<List<Task>> {
         elapsedSeconds: newElapsedSeconds,
       );
     });
+
+    await _saveToHive();
   }
 
   @override
@@ -198,7 +222,7 @@ class TasksController extends StateNotifier<List<Task>> {
   }
 
   //Using this to stop other tasks from running when we press start on one
-  void _stopOthers(String playingTask) {
+  Future<void> _stopOthers(String playingTask) async {
     for (final task in state) {
       if (task.id == playingTask) continue;
       _tickers[task.id]?.cancel();
@@ -211,5 +235,9 @@ class TasksController extends StateNotifier<List<Task>> {
       }
       return t;
     }).toList();
+
+    await _saveToHive();
   }
 }
+
+//-------------------------------------------------------------------------------------------------------
