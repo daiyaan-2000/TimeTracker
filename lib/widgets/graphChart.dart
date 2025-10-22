@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
-import 'package:fl_chart/fl_chart.dart'; // add this import at the top
+import 'package:fl_chart/fl_chart.dart';
 
 class Graphchart extends ConsumerWidget {
   const Graphchart({super.key});

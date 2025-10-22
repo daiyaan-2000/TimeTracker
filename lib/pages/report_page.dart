@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time_tracker/providers/hiveBoxProvider.dart';
 import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
 import 'package:time_tracker/widgets/graphChart.dart';
@@ -15,9 +16,12 @@ class ReportPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taskList = ref.watch(tasksProvider);
     double timeSum = 0;
+    final hiveList = ref.watch(hiveBoxProvider);
 
-    for (final i in taskList) {
-      timeSum += i.elapsedSeconds;
+    final List hiveMap = hiveList.get('tasks');
+
+    for (final i in hiveMap) {
+      timeSum += i['elapsedSeconds'];
     }
 
     int timeSumMinutes = timeSum ~/ 60;
