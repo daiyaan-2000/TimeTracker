@@ -10,8 +10,14 @@ class ReportChartStats extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final stats = ref.watch(statsProvider);
 
+    // pick today's data
+    final String todayKey = DateTime.now().toString().split(
+      ' ',
+    )[0]; // 'YYYY-MM-DD'
+    final Map<int, int> todayMap = stats[todayKey] ?? {};
+
     //Making the data usable for FL Chart
-    final dataPoints = stats.entries.map((entry) {
+    final dataPoints = todayMap.entries.map((entry) {
       final hour = entry.key.toDouble();
       final minutes = (entry.value / 60).toDouble();
       return FlSpot(hour, minutes);

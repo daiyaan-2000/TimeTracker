@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TaskDescriptions extends StatelessWidget {
-  TaskDescriptions({super.key, required this.label, required this.color});
+class TaskLabels extends StatelessWidget {
+  TaskLabels({super.key, required this.label, required this.color});
 
   final String label;
   final Color color;

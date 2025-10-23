@@ -12,7 +12,19 @@ class DashboardPage extends ConsumerWidget {
     final taskList = ref.watch(tasksProvider);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        // in ReportPage AppBar actions:
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.restore),
+            tooltip: 'Reset all timers',
+            onPressed: () {
+              // calls the method we just added
+              ref.read(tasksProvider.notifier).resetAllTimers();
+            },
+          ),
+        ],
+      ),
       backgroundColor: Color.fromRGBO(250, 250, 255, 100),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

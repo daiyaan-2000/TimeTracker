@@ -175,7 +175,7 @@ class TasksController extends StateNotifier<List<Task>> {
     });
   }
 
-  void pause(String taskId) {
+  Future<void> pause(String taskId) async {
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
@@ -184,7 +184,8 @@ class TasksController extends StateNotifier<List<Task>> {
       return t.copyWith(mode: TimerMode.paused);
     });
 
-    _saveToHive();
+    await _saveToHive();
+    await ref.read(statsProvider.notifier).saveToHive();
   }
 
   Future<void> stop(String taskId, {bool reset = false}) async {
@@ -210,6 +211,7 @@ class TasksController extends StateNotifier<List<Task>> {
     });
 
     await _saveToHive();
+    await ref.read(statsProvider.notifier).saveToHive();
   }
 
   @override
@@ -237,6 +239,25 @@ class TasksController extends StateNotifier<List<Task>> {
     }).toList();
 
     await _saveToHive();
+    await ref.read(statsProvider.notifier).saveToHive();
+  }
+
+  Future<void> resetAllTimers() async {
+    // 1) Build a new list with all timers = 0, mode = stopped
+    final List<Task> newList = <Task>[];
+    for (final t in state) {
+      final Task reset = t.copyWith(elapsedSeconds: 0, mode: TimerMode.stopped);
+      newList.add(reset);
+    }
+
+    // 2) Replace state with the reset list
+    state = newList;
+
+    // 3) Save tasks to Hive
+    await _saveToHive();
+
+    // 4) Also clear graph stats so the chart is empty too
+    await ref.read(statsProvider.notifier).clearAllStats();
   }
 }
 

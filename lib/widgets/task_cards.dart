@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/widgets/task_descriptions.dart';
+import 'package:time_tracker/widgets/task_labels.dart';
 import 'package:time_tracker/providers/tasks.dart';
 
 class TaskCards extends ConsumerWidget {
@@ -108,7 +108,7 @@ class TaskCards extends ConsumerWidget {
                             runSpacing: 4,
                             children: [
                               for (var i in task.details)
-                                TaskDescriptions(label: i, color: stableColor),
+                                TaskLabels(label: i, color: stableColor),
                             ],
                           ),
                         ],

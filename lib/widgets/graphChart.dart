@@ -21,7 +21,21 @@ class Graphchart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //reading stats
-    final Map<int, int> stats = ref.watch(statsProvider);
+    final Map<String, Map<int, int>> allStats = ref.watch(statsProvider);
+
+    String _dateKey(DateTime d) {
+      final y = d.year.toString().padLeft(4, '0');
+      final m = d.month.toString().padLeft(2, '0');
+      final day = d.day.toString().padLeft(2, '0');
+      return '$y-$m-$day';
+    }
+
+    final String todayKey = _dateKey(DateTime.now());
+
+    //Pull inner map from todays date
+    final Map<int, int> stats = Map<int, int>.from(
+      allStats[todayKey] ?? const <int, int>{},
+    );
 
     //sorting out the hours
     final List<int> hours = stats.keys.toList()..sort();
