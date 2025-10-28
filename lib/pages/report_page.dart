@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/providers/hiveBoxProvider.dart';
 import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/app_bar.dart';
-import 'package:time_tracker/widgets/graphChart.dart';
+import 'package:time_tracker/widgets/dayGraphChart.dart';
 import 'package:time_tracker/widgets/reportChartStats.dart';
 import 'dart:math' as math;
 
 import 'package:time_tracker/widgets/report_overviewBox.dart';
+import 'package:time_tracker/widgets/weekGraphChart.dart';
 
 class ReportPage extends ConsumerWidget {
   const ReportPage({super.key});
@@ -113,7 +114,7 @@ class ReportPage extends ConsumerWidget {
                               horizontal: 16,
                             ),
 
-                            child: Graphchart(),
+                            child: DayChart(),
                           ),
                           Container(
                             height: 500,
@@ -128,7 +129,7 @@ class ReportPage extends ConsumerWidget {
                               horizontal: 16,
                             ),
 
-                            child: Graphchart(),
+                            child: WeekChart(),
                           ),
                         ],
                       ),

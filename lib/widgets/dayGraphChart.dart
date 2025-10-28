@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class Graphchart extends ConsumerWidget {
-  const Graphchart({super.key});
+class DayChart extends ConsumerWidget {
+  const DayChart({super.key});
 
   String _hourLabel(int h) {
     final int hour12 =
@@ -64,7 +64,7 @@ class Graphchart extends ConsumerWidget {
                 minX: 9,
                 maxX: 21,
                 minY: 0,
-                maxY: 2,
+                maxY: 60,
 
                 gridData: FlGridData(
                   show: false,
