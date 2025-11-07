@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'tasks.dart';
+import '../../domain/entities/tasks.dart';
 import 'dart:async';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
 import 'package:hive_ce/hive.dart';
-import 'hiveBoxProvider.dart';
+import '../../../../providers/hiveBoxProvider.dart';
 
 final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
   final Box box = ref.read(hiveBoxProvider);

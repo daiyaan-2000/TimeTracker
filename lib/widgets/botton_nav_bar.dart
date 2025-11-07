@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/pages/add_new_page.dart';
-import 'package:time_tracker/pages/dashboard_page.dart';
+import 'package:time_tracker/features/tasks/presentation/pages/add_new_page.dart';
+import 'package:time_tracker/features/tasks/presentation/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/report_page.dart';
 import 'package:time_tracker/pages/profile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

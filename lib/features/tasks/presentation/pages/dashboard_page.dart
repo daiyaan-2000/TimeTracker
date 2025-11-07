@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/widgets/current_timer.dart';
-import 'package:time_tracker/widgets/task_cards.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/current_timer.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/task_cards.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
