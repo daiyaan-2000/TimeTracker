@@ -5,7 +5,7 @@ import 'package:time_tracker/pages/dashboard_page.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/providers/task_provider.dart';
 import 'package:time_tracker/widgets/task_labels.dart';
-import 'package:time_tracker/providers/tasks.dart';
+import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
 
 class TaskCards extends ConsumerWidget {
   TaskCards({super.key, required this.taskId});

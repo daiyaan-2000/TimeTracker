@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'tasks.dart';
+import '../features/tasks/domain/entities/tasks.dart';
 import 'dart:async';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
 import 'package:hive_ce/hive.dart';

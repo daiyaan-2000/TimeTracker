@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:time_tracker/pages/timer_card_details.dart';
 import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/providers/tasks.dart';
+import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
 
 class CurrentTimer extends ConsumerWidget {
   const CurrentTimer({super.key});
