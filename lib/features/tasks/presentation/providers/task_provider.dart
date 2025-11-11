@@ -1,104 +1,51 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/tasks.dart';
 import 'dart:async';
-import 'package:time_tracker/providers/graphStatsProvider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce/hive.dart';
-import '../../../../providers/hiveBoxProvider.dart';
+
+import 'package:time_tracker/providers/hiveBoxProvider.dart';
+import 'package:time_tracker/providers/graphStatsProvider.dart';
+
+import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
+import 'package:time_tracker/features/tasks/data/datasources/hive_task_datasource.dart';
+import 'package:time_tracker/features/tasks/data/repositories/taskRepository_data.dart';
+import 'package:time_tracker/features/tasks/domain/repositories/taskRepository_domain.dart';
 
 final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
+  // 1) get the hive box like before
   final Box box = ref.read(hiveBoxProvider);
-  return TasksController(ref, box);
+
+  // 2) wrap it in our datasource
+  final hiveDataSource = HiveTaskDataSource(box);
+
+  // 3) wrap THAT in our repository
+  final TaskRepository repo = TaskRepositoryBase(hiveDataSource);
+
+  // 4) give the controller the repo instead of the box
+  return TasksController(ref, repo);
 });
 
 class TasksController extends StateNotifier<List<Task>> {
-  TasksController(this.ref, this.box) : super(<Task>[]) {
-    Future.microtask(_loadFromHive);
+  TasksController(this.ref, this.repo) : super(<Task>[]) {
+    Future.microtask(_loadFromRepo);
   }
 
   final Ref ref;
-  final Box box;
+  final TaskRepository repo;
 
-  static const String _boxKey = 'tasks';
-
-  //-------------------------------------------------------------------------------------------------------
-
-  Future<void> _saveToHive() async {
-    final List<Map<String, dynamic>> list = <Map<String, dynamic>>[];
-    for (final i in state) {
-      list.add(i.toMap());
-    }
-    await box.put(_boxKey, list);
-
-    // DEBUG
-    final first = list.isNotEmpty ? list.first : null;
-
-    ;
-  }
-
-  Future<void> _loadFromHive() async {
-    final dynamic raw = box.get(_boxKey);
-
-    if (raw == null) {
-      state = _seedTasks();
-      await _saveToHive();
-      return;
-    }
-
-    final List<Task> loaded = <Task>[];
-    if (raw is List) {
-      for (final item in raw) {
-        if (item is Map) {
-          final map = Map<String, dynamic>.from(item as Map);
-          loaded.add(Task.fromMap(map));
-        }
-      }
-    }
-
-    if (loaded.isEmpty) {
-      print('[LOAD] parsed 0 items -> seed & save');
-      state = _seedTasks();
-      await _saveToHive();
-    } else {
-      print(
-        '[LOAD] loaded ${loaded.length} tasks. '
-        'First: id=${loaded.first.id} elapsed=${loaded.first.elapsedSeconds} mode=${loaded.first.mode}',
-      );
-      state = loaded;
-    }
-  }
+  //static const String _boxKey = 'tasks';
 
   //-------------------------------------------------------------------------------------------------------
 
-  static List<Task> _seedTasks() => [
-    Task(
-      id: 't1',
-      title: 'Riverpod Project',
-      details: ['Work', 'UI Design'],
-      iconInfo: 'assets/icons/monitor.png',
-      totalMinutes: 60,
-      elapsedSeconds: 0,
-      mode: TimerMode.stopped,
-    ),
-    Task(
-      id: 't2',
-      title: 'Dart Language Training',
-      details: ['Loops', 'Conditionals', 'Widgets'],
-      iconInfo: 'assets/icons/monitor.png',
-      totalMinutes: 60,
-      elapsedSeconds: 0,
-      mode: TimerMode.stopped,
-    ),
-    Task(
-      id: 't3',
-      title: 'Footy Practice',
-      details: ['Drills', 'Matches'],
-      iconInfo: 'assets/icons/monitor.png',
-      totalMinutes: 60,
-      elapsedSeconds: 0,
-      mode: TimerMode.stopped,
-    ),
-  ];
+  Future<void> _saveToRepo() async {
+    await repo.saveTasks(state);
+  }
+
+  Future<void> _loadFromRepo() async {
+    final tasks = await repo.getAllTasks();
+    state = tasks;
+  }
+
+  //-------------------------------------------------------------------------------------------------------
 
   final Map<String, Timer> _tickers = {};
 
@@ -129,7 +76,7 @@ class TasksController extends StateNotifier<List<Task>> {
       mode: TimerMode.stopped,
     );
     state = [newTask, ...state];
-    await _saveToHive();
+    await _saveToRepo();
   }
 
   void changeOrder({required Task latestTask}) {
@@ -184,7 +131,7 @@ class TasksController extends StateNotifier<List<Task>> {
       return t.copyWith(mode: TimerMode.paused);
     });
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -210,7 +157,7 @@ class TasksController extends StateNotifier<List<Task>> {
       );
     });
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -238,7 +185,7 @@ class TasksController extends StateNotifier<List<Task>> {
       return t;
     }).toList();
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -254,7 +201,7 @@ class TasksController extends StateNotifier<List<Task>> {
     state = newList;
 
     // 3) Save tasks to Hive
-    await _saveToHive();
+    await _saveToRepo();
 
     // 4) Also clear graph stats so the chart is empty too
     await ref.read(statsProvider.notifier).clearAllStats();
