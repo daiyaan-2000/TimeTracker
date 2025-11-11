@@ -11,16 +11,16 @@ import 'package:time_tracker/features/tasks/data/repositories/taskRepository_dat
 import 'package:time_tracker/features/tasks/domain/repositories/taskRepository_domain.dart';
 
 final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
-  // 1) get the hive box like before
+  //getting the hive box like before
   final Box box = ref.read(hiveBoxProvider);
 
-  // 2) wrap it in our datasource
+  //wrappinig it in our datasource
   final hiveDataSource = HiveTaskDataSource(box);
 
-  // 3) wrap THAT in our repository
+  //wrapping THAT in our repository
   final TaskRepository repo = TaskRepositoryBase(hiveDataSource);
 
-  // 4) give the controller the repo instead of the box
+  //Giving the controller the repo instead of the box
   return TasksController(ref, repo);
 });
 
