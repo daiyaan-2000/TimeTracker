@@ -179,7 +179,7 @@ class PlayPauseButton extends ConsumerWidget {
       }),
     );
 
-    final TasksController controller = ref.read(tasksProvider.notifier);
+    final TasksProvider controller = ref.read(tasksProvider.notifier);
 
     IconData icon;
 

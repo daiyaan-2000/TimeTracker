@@ -1,70 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../features/tasks/domain/entities/tasks.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/get_all_tasks.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/saveTasks.dart';
 import 'dart:async';
 import 'package:time_tracker/providers/graphStatsProvider.dart';
 import 'package:hive_ce/hive.dart';
 import 'hiveBoxProvider.dart';
+import 'package:time_tracker/features/tasks/data/datasources/hive_task_datasource.dart';
+import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
+import 'package:time_tracker/features/tasks/domain/repositories/task_repository.dart';
+import 'package:time_tracker/features/tasks/data/repositories/hive_task_repository.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/addTask.dart';
 
-final tasksProvider = StateNotifierProvider<TasksController, List<Task>>((ref) {
+final tasksProvider = StateNotifierProvider<TasksProvider, List<Task>>((ref) {
   final Box box = ref.read(hiveBoxProvider);
-  return TasksController(ref, box);
+
+  final dataSource = HiveTaskDataSource(
+    box,
+  ); // Create the data source and pass it to the provider
+  final repo = HiveTaskRepository(
+    dataSource,
+  ); // Build repository (domain-facing) on top of data source
+  final getAllTasksUseCase = GetAllTasksUseCase(repo);
+  final saveTasksUseCase = SaveTasksUseCase(repo);
+  final addTaskUseCase = AddTaskUseCase(repo);
+
+  return TasksProvider(
+    ref,
+    repo,
+    getAllTasksUseCase,
+    saveTasksUseCase,
+    addTaskUseCase,
+  );
 });
 
-class TasksController extends StateNotifier<List<Task>> {
-  TasksController(this.ref, this.box) : super(<Task>[]) {
-    Future.microtask(_loadFromHive);
+class TasksProvider extends StateNotifier<List<Task>> {
+  TasksProvider(
+    this.ref,
+    this.repo,
+    this.getAllTasksUseCase,
+    this.saveTasksUseCase,
+    this.addTaskUseCase,
+  ) : super(<Task>[]) {
+    Future.microtask(_loadFromRepo);
   }
 
   final Ref ref;
-  final Box box;
-
-  static const String _boxKey = 'tasks';
+  final TaskRepository repo;
+  final GetAllTasksUseCase getAllTasksUseCase;
+  final SaveTasksUseCase saveTasksUseCase;
+  final AddTaskUseCase addTaskUseCase;
 
   //-------------------------------------------------------------------------------------------------------
 
-  Future<void> _saveToHive() async {
-    final List<Map<String, dynamic>> list = <Map<String, dynamic>>[];
-    for (final i in state) {
-      list.add(i.toMap());
-    }
-    await box.put(_boxKey, list);
-
-    // DEBUG
-    final first = list.isNotEmpty ? list.first : null;
-
-    ;
+  Future<void> _saveToRepo() async {
+    await saveTasksUseCase(state);
   }
 
-  Future<void> _loadFromHive() async {
-    final dynamic raw = box.get(_boxKey);
+  Future<void> _loadFromRepo() async {
+    final tasks = await getAllTasksUseCase();
 
-    if (raw == null) {
+    if (tasks.isEmpty) {
       state = _seedTasks();
-      await _saveToHive();
-      return;
-    }
-
-    final List<Task> loaded = <Task>[];
-    if (raw is List) {
-      for (final item in raw) {
-        if (item is Map) {
-          final map = Map<String, dynamic>.from(item as Map);
-          loaded.add(Task.fromMap(map));
-        }
-      }
-    }
-
-    if (loaded.isEmpty) {
-      print('[LOAD] parsed 0 items -> seed & save');
-      state = _seedTasks();
-      await _saveToHive();
+      await saveTasksUseCase(state);
     } else {
-      print(
-        '[LOAD] loaded ${loaded.length} tasks. '
-        'First: id=${loaded.first.id} elapsed=${loaded.first.elapsedSeconds} mode=${loaded.first.mode}',
-      );
-      state = loaded;
+      state = tasks;
     }
   }
 
@@ -119,17 +119,15 @@ class TasksController extends StateNotifier<List<Task>> {
     required int totalMinutes,
     dynamic iconInfo,
   }) async {
-    final newTask = Task(
-      id: 't${DateTime.now().millisecondsSinceEpoch}',
+    final updatedTasks = await addTaskUseCase(
+      currentTasks: state,
       title: title,
       details: details,
-      iconInfo: iconInfo ?? 'assets/icons/monitor.png',
       totalMinutes: totalMinutes,
-      elapsedSeconds: 0,
-      mode: TimerMode.stopped,
+      iconInfo: iconInfo,
     );
-    state = [newTask, ...state];
-    await _saveToHive();
+
+    state = updatedTasks;
   }
 
   void changeOrder({required Task latestTask}) {
@@ -184,7 +182,7 @@ class TasksController extends StateNotifier<List<Task>> {
       return t.copyWith(mode: TimerMode.paused);
     });
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -210,7 +208,7 @@ class TasksController extends StateNotifier<List<Task>> {
       );
     });
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -238,7 +236,7 @@ class TasksController extends StateNotifier<List<Task>> {
       return t;
     }).toList();
 
-    await _saveToHive();
+    await _saveToRepo();
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -254,7 +252,7 @@ class TasksController extends StateNotifier<List<Task>> {
     state = newList;
 
     // 3) Save tasks to Hive
-    await _saveToHive();
+    await _saveToRepo();
 
     // 4) Also clear graph stats so the chart is empty too
     await ref.read(statsProvider.notifier).clearAllStats();
