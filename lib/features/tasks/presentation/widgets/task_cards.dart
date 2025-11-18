@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/pages/dashboard_page.dart';
-import 'package:time_tracker/pages/timer_card_details.dart';
-import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/widgets/task_labels.dart';
+import 'package:time_tracker/features/tasks/presentation/pages/dashboard_page.dart';
+import 'package:time_tracker/features/tasks/presentation/pages/timer_card_details.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/task_labels.dart';
 import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
 
 class TaskCards extends ConsumerWidget {
@@ -189,7 +189,7 @@ class PlayPauseButton extends ConsumerWidget {
       icon = Icons.pause;
 
       onPressed = () {
-        controller.pause(taskId);
+        controller.stop(taskId);
       };
     } else if (mode == TimerMode.paused) {
       icon = Icons.play_arrow;

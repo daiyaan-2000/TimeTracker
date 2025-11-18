@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/providers/hiveBoxProvider.dart';
-import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/widgets/app_bar.dart';
-import 'package:time_tracker/widgets/dayGraphChart.dart';
-import 'package:time_tracker/widgets/reportChartStats.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/hiveBoxProvider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/app_bar.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/dayGraphChart.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/reportChartStats.dart';
 import 'dart:math' as math;
 
-import 'package:time_tracker/widgets/report_overviewBox.dart';
-import 'package:time_tracker/widgets/weekGraphChart.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/report_overviewBox.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/weekGraphChart.dart';
 
 class ReportPage extends ConsumerWidget {
   const ReportPage({super.key});

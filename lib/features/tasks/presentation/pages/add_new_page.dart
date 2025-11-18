@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/providers/bottomNavState_provider.dart';
-import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/widgets/app_bar.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/bottomNavState_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/app_bar.dart';
 import 'dart:async';
 
 class AddNew extends ConsumerStatefulWidget {

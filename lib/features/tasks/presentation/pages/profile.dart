@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/widgets/profile_page_buttons.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/profile_page_buttons.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

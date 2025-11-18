@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
-import 'package:time_tracker/providers/task_provider.dart';
-import 'package:time_tracker/widgets/task_labels.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/task_labels.dart';
 import 'dart:math' as math;
 
 class TimerDetailPage extends ConsumerWidget {

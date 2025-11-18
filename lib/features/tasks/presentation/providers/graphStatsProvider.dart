@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/providers/task_provider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/task_provider.dart';
 import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:time_tracker/providers/hiveBoxProvider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/hiveBoxProvider.dart';
 
 class StatsController extends StateNotifier<Map<String, Map<int, int>>> {
   StatsController(this.ref, this.box) : super(<String, Map<int, int>>{}) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/widgets/botton_nav_bar.dart';
+import 'package:time_tracker/features/tasks/presentation/widgets/botton_nav_bar.dart';
 
 class OpeningPage extends StatelessWidget {
   const OpeningPage({super.key});

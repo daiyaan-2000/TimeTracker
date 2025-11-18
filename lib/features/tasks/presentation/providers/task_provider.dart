@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:time_tracker/features/tasks/domain/usecases/get_all_tasks.dart';
-import 'package:time_tracker/features/tasks/domain/usecases/saveTasks.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/getTasksUseCase.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/saveTasksUseCase.dart';
 import 'dart:async';
-import 'package:time_tracker/providers/graphStatsProvider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/graphStatsProvider.dart';
 import 'package:hive_ce/hive.dart';
 import 'hiveBoxProvider.dart';
 import 'package:time_tracker/features/tasks/data/datasources/hive_task_datasource.dart';
 import 'package:time_tracker/features/tasks/domain/entities/tasks.dart';
 import 'package:time_tracker/features/tasks/domain/repositories/task_repository.dart';
 import 'package:time_tracker/features/tasks/data/repositories/hive_task_repository.dart';
-import 'package:time_tracker/features/tasks/domain/usecases/addTask.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/addTaskUseCase.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/startTaskUseCase.dart';
+import 'package:time_tracker/features/tasks/domain/usecases/stopTaskUseCase.dart';
 
 final tasksProvider = StateNotifierProvider<TasksProvider, List<Task>>((ref) {
   final Box box = ref.read(hiveBoxProvider);
@@ -24,6 +26,8 @@ final tasksProvider = StateNotifierProvider<TasksProvider, List<Task>>((ref) {
   final getAllTasksUseCase = GetAllTasksUseCase(repo);
   final saveTasksUseCase = SaveTasksUseCase(repo);
   final addTaskUseCase = AddTaskUseCase(repo);
+  final startTaskUseCase = StartTaskUseCase(repo);
+  final stopTaskUseCase = StopTaskUseCase(repo);
 
   return TasksProvider(
     ref,
@@ -31,6 +35,8 @@ final tasksProvider = StateNotifierProvider<TasksProvider, List<Task>>((ref) {
     getAllTasksUseCase,
     saveTasksUseCase,
     addTaskUseCase,
+    startTaskUseCase,
+    stopTaskUseCase,
   );
 });
 
@@ -41,6 +47,8 @@ class TasksProvider extends StateNotifier<List<Task>> {
     this.getAllTasksUseCase,
     this.saveTasksUseCase,
     this.addTaskUseCase,
+    this.startTaskUseCase,
+    this.stopTaskUseCase,
   ) : super(<Task>[]) {
     Future.microtask(_loadFromRepo);
   }
@@ -50,6 +58,8 @@ class TasksProvider extends StateNotifier<List<Task>> {
   final GetAllTasksUseCase getAllTasksUseCase;
   final SaveTasksUseCase saveTasksUseCase;
   final AddTaskUseCase addTaskUseCase;
+  final StartTaskUseCase startTaskUseCase;
+  final StopTaskUseCase stopTaskUseCase;
 
   //-------------------------------------------------------------------------------------------------------
 
@@ -138,19 +148,25 @@ class TasksProvider extends StateNotifier<List<Task>> {
   //-------------------------------------------------------------------------------------------------------
   //TIMER CONTROLSS
   Future<void> start(String taskId) async {
+    //stop other timers
     await _stopOthers(taskId);
+
+    //making sure only one running task
+    final updatedTasks = await startTaskUseCase(
+      currentTasks: state,
+      taskId: taskId,
+    );
+    state = updatedTasks;
+
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
 
-    _updateTask(taskId, (t) {
-      return t.copyWith(mode: TimerMode.running);
-    });
-
+    //move started task to top of list
     final currentTask = state.firstWhere((t) => t.id == taskId);
     changeOrder(latestTask: currentTask);
 
-    //Stopping after reaching target time
+    //start timer
     _tickers[taskId] = Timer.periodic(const Duration(seconds: 1), (timer) {
       _updateTask(taskId, (t) {
         final int maxSeconds = t.totalMinutes * 60;
@@ -173,42 +189,22 @@ class TasksProvider extends StateNotifier<List<Task>> {
     });
   }
 
-  Future<void> pause(String taskId) async {
-    if (_tickers[taskId] != null) {
-      _tickers[taskId]!.cancel();
-    }
-    _tickers.remove(taskId);
-    _updateTask(taskId, (t) {
-      return t.copyWith(mode: TimerMode.paused);
-    });
-
-    await _saveToRepo();
-    await ref.read(statsProvider.notifier).saveToHive();
-  }
-
   Future<void> stop(String taskId, {bool reset = false}) async {
+    //stop timer
     if (_tickers[taskId] != null) {
       _tickers[taskId]!.cancel();
     }
-
     _tickers.remove(taskId);
 
-    _updateTask(taskId, (t) {
-      int newElapsedSeconds;
+    //using through usecase
+    final updatedTasks = await stopTaskUseCase(
+      currentTasks: state,
+      taskId: taskId,
+      reset: reset,
+    );
+    state = updatedTasks;
 
-      if (reset) {
-        newElapsedSeconds = 0;
-      } else {
-        newElapsedSeconds = t.elapsedSeconds;
-      }
-
-      return t.copyWith(
-        mode: TimerMode.stopped,
-        elapsedSeconds: newElapsedSeconds,
-      );
-    });
-
-    await _saveToRepo();
+    //graph stats saving
     await ref.read(statsProvider.notifier).saveToHive();
   }
 
@@ -225,36 +221,27 @@ class TasksProvider extends StateNotifier<List<Task>> {
   Future<void> _stopOthers(String playingTask) async {
     for (final task in state) {
       if (task.id == playingTask) continue;
+
       _tickers[task.id]?.cancel();
       _tickers.remove(task.id);
     }
-    state = state.map((t) {
-      if (t.id == playingTask) return t;
-      if (t.mode == TimerMode.running) {
-        return t.copyWith(mode: TimerMode.stopped);
-      }
-      return t;
-    }).toList();
-
-    await _saveToRepo();
-    await ref.read(statsProvider.notifier).saveToHive();
   }
 
   Future<void> resetAllTimers() async {
-    // 1) Build a new list with all timers = 0, mode = stopped
+    //building a new list with all timers set to 0
     final List<Task> newList = <Task>[];
     for (final t in state) {
       final Task reset = t.copyWith(elapsedSeconds: 0, mode: TimerMode.stopped);
       newList.add(reset);
     }
 
-    // 2) Replace state with the reset list
+    //replacing state wiht a new list
     state = newList;
 
-    // 3) Save tasks to Hive
+    //saving to hive
     await _saveToRepo();
 
-    // 4) Also clear graph stats so the chart is empty too
+    //clear graph stats
     await ref.read(statsProvider.notifier).clearAllStats();
   }
 }

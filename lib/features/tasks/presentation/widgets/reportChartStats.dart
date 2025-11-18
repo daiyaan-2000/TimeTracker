@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:time_tracker/providers/graphStatsProvider.dart';
+import 'package:time_tracker/features/tasks/presentation/providers/graphStatsProvider.dart';
 
 class ReportChartStats extends ConsumerWidget {
   const ReportChartStats({super.key});
